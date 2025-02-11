@@ -22,28 +22,47 @@ Weapon property requiredRod auto
 Actor Property PlayerRef auto
 Perk Property _LLFP_MoreCatch_Perk01 auto
 
-Int property _LLFP_CaughtCount = 0 auto ; getCaughtObject activates 2 times; this prevents from llfp system launching twice
+Int property _LLFP_CaughtCount = 0 auto ; getCaughtObject activates 2 times; this prevents from doublecatch activating twice
 
 Form function getCaughtObject()
-	Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
 	_LLFP_CaughtCount+=1
-	if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) ; if catch detected (doesnt work with misc) and has perk
-		Debug.Notification("Adding catch to inventory")
-		_LLFP_CaughtCount = 0 ; Reset
-	endif
 	if fishFood
-		;Debug.Notification("fishfood obtained")
-		return fishFood
+		Debug.Notification("fishfood obtained")
+		Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
+
+		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) ; if true catch detected and has perk
+			Debug.Notification("Double Catch trigger")
+			PlayerRef.addItem(fishFood)
+			return(fishFood)
+		else
+			return fishFood
+		Endif
 	elseif fishIngredient
-		;Debug.Notification("fishingredient obtained")
-		return fishIngredient
+		Debug.Notification("fishingredient obtained")
+		Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
+
+		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) ; if true catch detected and has perk
+			Debug.Notification("Double Catch trigger")
+			PlayerRef.addItem(fishIngredient)
+			return(fishIngredient)
+		else
+			return fishIngredient
+		Endif
 	elseif fishMiscObject
-		;Debug.Notification("fishmisc obtained")
-		return fishMiscObject
+		Debug.Notification("fishmisc obtained")
+		Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
+
+		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) ; if true catch detected and has perk
+			Debug.Notification("Double Catch trigger")
+			PlayerRef.addItem(fishMiscObject)
+			return(fishMiscObject)
+		else
+			return fishMiscObject
+		Endif
 	else
 		return None
 	endif
-	
+	_LLFP_CaughtCount = 0 ; Failsafe reset
 endFunction
 
 float[] function getCatchSequence()

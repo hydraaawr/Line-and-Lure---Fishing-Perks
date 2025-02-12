@@ -15,7 +15,7 @@
       "description": "Fishing Description",
       "level": "LLFP.esp|D63",
       "ratio": "LLFP.esp|D65",
-      "legendary": "LLFP.esp|1D92",
+      "legendary": "LLFP.esp|002",
       "color": null,
       "showLevelup": "LLFP.esp|D64",
       "experienceFormula": {
@@ -28,27 +28,27 @@
       "nodes": [
         {
           "id": "perk01",
-          "perk": "LLFP.esp|12C8",
+          "perk": "LLFP.esp|003",
           "x": 1.5,
           "y": 0,
           "links": [ "perk02" ]
         },
         {
           "id": "perk02",
-          "perk": "LLFP.esp|12C9",
+          "perk": "LLFP.esp|004",
           "x": 1.5,
           "y": 1,
           "links": [ "perk03_0", "perk03_1" ]
         },
         {
           "id": "perk03_0",
-          "perk": "LLFP.esp|12CA",
+          "perk": "LLFP.esp|005",
           "x": 1.5,
           "y": 2
         },
         {
           "id": "perk03_1",
-          "perk": "LLFP.esp|12CB",
+          "perk": "LLFP.esp|006",
           "x": 0.5,
           "y": 2
         }

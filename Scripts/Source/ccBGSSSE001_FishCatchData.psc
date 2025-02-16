@@ -20,7 +20,7 @@ Weapon property requiredRod auto
 { The rod required to catch this fish. }
 
 Actor Property PlayerRef auto
-Perk Property _LLFP_MoreCatch_Perk01 auto
+Perk Property _LLFP_MoreCatch_Perk auto
 
 Int property _LLFP_CaughtCount = 0 auto ; getCaughtObject activates 2 times; this prevents from doublecatch activating twice
 
@@ -30,7 +30,7 @@ Form function getCaughtObject()
 		Debug.Notification("fishfood obtained")
 		Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
 
-		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) ; if true catch detected and has perk
+		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) ; if true catch detected and has perk
 			Debug.Notification("Double Catch trigger")
 			PlayerRef.addItem(fishFood)
 			return(fishFood)
@@ -41,7 +41,7 @@ Form function getCaughtObject()
 		Debug.Notification("fishingredient obtained")
 		Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
 
-		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) ; if true catch detected and has perk
+		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) ; if true catch detected and has perk
 			Debug.Notification("Double Catch trigger")
 			PlayerRef.addItem(fishIngredient)
 			return(fishIngredient)
@@ -52,7 +52,7 @@ Form function getCaughtObject()
 		Debug.Notification("fishmisc obtained")
 		Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
 
-		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) ; if true catch detected and has perk
+		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) ; if true catch detected and has perk
 			Debug.Notification("Double Catch trigger")
 			PlayerRef.addItem(fishMiscObject)
 			return(fishMiscObject)

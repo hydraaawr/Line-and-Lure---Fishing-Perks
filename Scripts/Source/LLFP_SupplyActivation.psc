@@ -3,6 +3,8 @@ Scriptname LLFP_SupplyActivation extends ObjectReference
 Actor Property PlayerRef auto
 ;GlobalVariable Property _LLFP_IsFishing auto
 Keyword Property _LLFP_IsTemperateStream auto
+Perk Property _LLFP_DetectBiome_Perk auto
+
 
 Event OnActivate(ObjectReference akActionRef)
 
@@ -14,7 +16,7 @@ Event OnActivate(ObjectReference akActionRef)
         CustomSkills.IncrementSkill("fishing")
         Utility.Wait(1)
        
-        if(self.HasKeyword(_LLFP_IsTemperateStream))
+        if(PlayerRef.HasPerk(_LLFP_DetectBiome_Perk) && self.HasKeyword(_LLFP_IsTemperateStream))
 
             Debug.Notification("You are fishing in a temperate stream")
 

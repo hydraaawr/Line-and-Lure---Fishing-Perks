@@ -19,51 +19,32 @@ bool property isSmallFish auto
 Weapon property requiredRod auto
 { The rod required to catch this fish. }
 
-Actor Property PlayerRef auto
-Perk Property _LLFP_MoreCatch_Perk auto
+;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-Int property _LLFP_CaughtCount = 0 auto ; getCaughtObject activates 2 times; this prevents from doublecatch activating twice
+LLFP_QuestScript Property QuestScript auto 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  
 Form function getCaughtObject()
-	_LLFP_CaughtCount+=1
+	Form caughtObject = None
+	
 	if fishFood
-		Debug.Notification("fishfood obtained")
-		Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
-
-		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) ; if true catch detected and has perk
-			Debug.Notification("Double Catch trigger")
-			PlayerRef.addItem(fishFood)
-			return(fishFood)
-		else
-			return fishFood
-		Endif
+		caughtObject = fishFood
 	elseif fishIngredient
-		Debug.Notification("fishingredient obtained")
-		Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
-
-		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) ; if true catch detected and has perk
-			Debug.Notification("Double Catch trigger")
-			PlayerRef.addItem(fishIngredient)
-			return(fishIngredient)
-		else
-			return fishIngredient
-		Endif
+		caughtObject = fishIngredient
 	elseif fishMiscObject
-		Debug.Notification("fishmisc obtained")
-		Debug.Notification("_LLFP_CaughtCount1 = " + _LLFP_CaughtCount)
-
-		if _LLFP_CaughtCount > 1 && PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) ; if true catch detected and has perk
-			Debug.Notification("Double Catch trigger")
-			PlayerRef.addItem(fishMiscObject)
-			return(fishMiscObject)
-		else
-			return fishMiscObject
-		Endif
-	else
-		return None
+		caughtObject = fishMiscObject
 	endif
-	_LLFP_CaughtCount = 0 ; Failsafe reset
+	; Capture object for later use
+	QuestScript.LastCaughtObject = caughtObject
+	;;;;;;;;
+	return caughtObject
 endFunction
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 float[] function getCatchSequence()
 	return catchSequence

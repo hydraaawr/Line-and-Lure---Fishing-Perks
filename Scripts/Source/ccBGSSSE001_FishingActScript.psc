@@ -51,6 +51,14 @@ float property myQuestCatchChance = 1.0 auto
 FormList property myOverrideJunkCatchDataList auto
 { The junk override list to draw from for this set of fishing supplies, used for catching specific flavors of junk. }
 
+;;;;;;;;;; LLFP;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Actor Property PlayerRef auto
+Perk Property _LLFP_MoreCatch_Perk auto
+LLFP_FishAliasScript Property FishAliasScript auto
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;/ 
  / ================
  /  LOCAL STATE
@@ -108,6 +116,15 @@ endFunction
 
 function UpdateFishCatchSuccess()
 	; EXTEND
+	;;;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	Debug.Notification("Updating fish catch Success...")
+	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk)
+
+		Debug.Notification("Double catch triggered")
+		PlayerRef.additem(FishAliasScript.LastCaughtObject) ; add extra catch
+
+	endif
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 endFunction
 
 function UpdateFish()

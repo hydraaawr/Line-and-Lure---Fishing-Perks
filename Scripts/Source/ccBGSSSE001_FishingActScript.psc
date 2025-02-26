@@ -118,6 +118,14 @@ function UpdateFishCatchSuccess()
 	; EXTEND
 	;;;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	Debug.Notification("Updating fish catch Success...")
+	
+	; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
+
+	Utility.Wait(1)
+	CustomSkills.AdvanceSkill("fishing",10) ; TODO: a formula of progression level by level
+
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk)
 
 		Debug.Notification("Double catch triggered")

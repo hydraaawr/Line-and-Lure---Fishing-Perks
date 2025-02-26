@@ -122,7 +122,7 @@ function UpdateFishCatchSuccess()
 	; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
 
 	Utility.Wait(1)
-	CustomSkills.AdvanceSkill("fishing",10) ; TODO: a formula of progression level by level
+	CustomSkills.AdvanceSkill("fishing",50) ; TODO: a formula of progression level by level
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

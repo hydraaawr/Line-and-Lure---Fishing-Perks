@@ -306,6 +306,13 @@ Light property ccBGSSSE001_CatchSuccessLight auto
 Weather property SkyrimStormRain auto
 { The weather to force to when wearing equipment that summons rain. }
 
+;;;;;;;;;; LLFP;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Perk Property _LLFP_MoreRarityJunk_Perk01 auto
+;; Default values of the following globals result in a global default of 62% chance of common, 34% uncommon, 4% rare
+GlobalVariable Property _LLFP_CommonJunkBonus01 auto ; Default: .03
+GlobalVariable Property _LLFP_UnCommonJunkBonus01 auto; Default: .01
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;/ 
  / ==========================
@@ -349,6 +356,16 @@ ccBGSSSE001_RadiantFishEventListener RadiantFishEventListener
  /  EVENTS
  / ==========================
  /;
+
+Event OnInit()
+
+	Debug.Notification("Init fishingsystemscript test")
+
+
+EndEvent
+
+
+
 Event OnUpdate()
 	; Player input and updates can both change system state, only allow one to run at a time.
 	; In terms of UX, it is acceptable if we wait to process this update until the input handling is complete.
@@ -850,6 +867,20 @@ ccBGSSSE001_CatchData function GetNextJunkCatchData(FormList akCatchDataList)
 		catchThresholdCommonJunk += SPECIAL_JUNK_RODS_COMMONJUNK_THRESHOLD_ADJUST
 		catchThresholdUncommonJunk += SPECIAL_JUNK_RODS_UNCOMMONJUNK_THRESHOLD_ADJUST
 	endif
+
+	;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; More junk perk modifies the chances of getting rarer junk .The idea is to lower common and increase uncommon and rare
+	Debug.Notification("catchThresholdCommonJunk before perk = " + catchThresholdCommonJunk)
+	Debug.Notification("catchThresholdUnCommonJunk before perk = " + catchThresholdUnCommonJunk)
+
+	if PlayerRef.HasPerk(_LLFP_MoreRarityJunk_Perk01)
+		catchThresholdCommonJunk += _LLFP_CommonJunkBonus01.GetValue()
+		catchThresholdUncommonJunk += _LLFP_UnCommonJunkBonus01.GetValue()
+		Debug.Notification("catchThresholdCommonJunk after perk = " + catchThresholdCommonJunk)
+		Debug.Notification("catchThresholdUnCommonJunk after perk = " + catchThresholdUnCommonJunk)
+	endIf
+
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	if rarityRoll >= catchThresholdCommonJunk
 		rarityListIndex = RARITY_LIST_COMMON_INDEX

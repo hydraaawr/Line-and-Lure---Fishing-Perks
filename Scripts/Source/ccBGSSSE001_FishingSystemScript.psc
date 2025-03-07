@@ -309,9 +309,13 @@ Weather property SkyrimStormRain auto
 ;;;;;;;;;; LLFP;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Perk Property _LLFP_MoreRarityJunk_Perk01 auto
-;; Default values of the following globals result in a global default of 62% chance of common, 34% uncommon, 4% rare
+;; Default values of the following globals related to MoreRarityJunk result in a global default of 62% chance of common, 34% uncommon, 4% rare
 GlobalVariable Property _LLFP_CommonJunkBonus01 auto ; Default: .03
 GlobalVariable Property _LLFP_UnCommonJunkBonus01 auto; Default: .01
+
+Perk Property _LLFP_JunkSpell_Perk01 auto
+MagicEffect Property _LLFP_JunkSpellEffect auto
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;/ 
@@ -688,7 +692,7 @@ ccBGSSSE001_CatchData function GetNextCatchData()
 		catchTypeRoll = catchChanceFish
 	endif
 
-	if catchTypeRoll >= catchChanceFish
+	if catchTypeRoll >= catchChanceFish && !PlayerRef.HasMagicEffect(_LLFP_JunkSpellEffect) ; LLFP check if player doesnt have the catch only junk spell active
 		; Fish Result
 		int biomeType = currentFishingSupplies.BiomeType
 		if biomeType == BIOME_TYPE_STREAM
@@ -713,7 +717,7 @@ ccBGSSSE001_CatchData function GetNextCatchData()
 		endif
 
 		catchData = GetNextFishCatchData(catchDataList)
-	else
+	else ;; LLFP: will only catch junk if that spell is active
 		catchData = GetNextJunkCatchData(GetJunkCatchDataList())
 	endif
 	

@@ -29,6 +29,7 @@ LLFP_FishAliasScript Property FishAliasScript auto
 ;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
 Form function getCaughtObject()
+	Debug.Notification("Getting caught object...")
 	Form caughtObject = None
 	
 	if fishFood

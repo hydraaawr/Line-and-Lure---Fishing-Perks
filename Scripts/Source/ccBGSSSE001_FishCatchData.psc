@@ -21,7 +21,7 @@ Weapon property requiredRod auto
 
 ;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-LLFP_FishAliasScript Property FishAliasScript auto 
+LLFP_QuestScript Property QuestScript auto 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -40,7 +40,7 @@ Form function getCaughtObject()
 		caughtObject = fishMiscObject
 	endif
 	; Capture object for later use
-	FishAliasScript.LastCaughtObject = caughtObject
+	QuestScript.LastCaughtObject = caughtObject
 	;;;;;;;;
 	return caughtObject
 endFunction

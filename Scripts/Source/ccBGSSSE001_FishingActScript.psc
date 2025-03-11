@@ -55,7 +55,7 @@ FormList property myOverrideJunkCatchDataList auto
 
 Actor Property PlayerRef auto
 Perk Property _LLFP_MoreCatch_Perk auto
-LLFP_FishAliasScript Property FishAliasScript auto
+LLFP_QuestScript Property QuestScript auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -126,13 +126,13 @@ function UpdateFishCatchSuccess()
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) && FishAliasScript.LastCaughtObject !=  NONE
+	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) && QuestScript.LastCaughtObject !=  NONE
 
 		Debug.Notification("Double catch triggered")
 
-		PlayerRef.additem(FishAliasScript.LastCaughtObject) ; add extra catch
+		PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
 
-		FishAliasScript.LastCaughtObject = NONE ; Reset
+		QuestScript.LastCaughtObject = NONE ; Reset
 
 	else
 			Debug.Notification("Have Doublecatch perk, but not correct prey")

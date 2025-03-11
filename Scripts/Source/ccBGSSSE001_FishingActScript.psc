@@ -132,6 +132,8 @@ function UpdateFishCatchSuccess()
 
 		PlayerRef.additem(FishAliasScript.LastCaughtObject) ; add extra catch
 
+		FishAliasScript.LastCaughtObject = NONE ; Reset
+
 	else
 			Debug.Notification("Have Doublecatch perk, but not correct prey")
 	endif

@@ -675,8 +675,11 @@ ccBGSSSE001_CatchData function GetNextCatchData()
 
 	float catchChanceFish = BASE_CATCH_THRESHOLD_IS_FISH * GetFishCatchThresholdModifier() * GetFishPopulationJunkModifier()
 
+;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Modified which list searches depending on spells active (prioritary) and rolls results (secondary). This is og code modified
 	; Quest results override normal catch results
-	if currentFishingSupplies.CanCatchQuestItem()
+	;; LLFP: Unless you have spells active
+	if currentFishingSupplies.CanCatchQuestItem() && !PlayerRef.HasMagicEffect(_LLFP_FishSpellEffect) && !PlayerRef.HasMagicEffect(_LLFP_JunkSpellEffect)
 		isQuestItemCatch = true
 
 		; Roll for result
@@ -695,8 +698,7 @@ ccBGSSSE001_CatchData function GetNextCatchData()
 	if !PlayerHasCaughtFishBefore()
 		catchTypeRoll = catchChanceFish
 	endif
-;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Modified which list searches depending on spells active (prioritary) and rolls results (secondary). This is og code modified
+
 	if PlayerRef.HasMagicEffect(_LLFP_FishSpellEffect) ; FishSpell active
 		int biomeType = currentFishingSupplies.BiomeType
 		if biomeType == BIOME_TYPE_STREAM
@@ -757,6 +759,8 @@ ccBGSSSE001_CatchData function GetNextCatchData()
 
 	endif
 	
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 	; If this was a one-time-only catch, check to see if it is in the caught list.
 	; If it has already been caught, search the list this CatchData came from
 	; for a different item that isn't one-time-only or hasn't already been caught.

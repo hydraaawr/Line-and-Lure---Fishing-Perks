@@ -313,6 +313,10 @@ Perk Property _LLFP_MoreRarityJunk_Perk01 auto
 GlobalVariable Property _LLFP_CommonJunkBonus01 auto ; Default: .03
 GlobalVariable Property _LLFP_UnCommonJunkBonus01 auto; Default: .01
 
+
+Perk Property _LLFP_FishSpell_Perk01 auto
+MagicEffect Property _LLFP_FishSpellEffect auto
+
 Perk Property _LLFP_JunkSpell_Perk01 auto
 MagicEffect Property _LLFP_JunkSpellEffect auto
 
@@ -691,9 +695,9 @@ ccBGSSSE001_CatchData function GetNextCatchData()
 	if !PlayerHasCaughtFishBefore()
 		catchTypeRoll = catchChanceFish
 	endif
-
-	if catchTypeRoll >= catchChanceFish && !PlayerRef.HasMagicEffect(_LLFP_JunkSpellEffect) ; LLFP check if player doesnt have the catch only junk spell active
-		; Fish Result
+;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Modified which list searches depending on spells active (prioritary) and rolls results (secondary). This is og code modified
+	if PlayerRef.HasMagicEffect(_LLFP_FishSpellEffect) ; FishSpell active
 		int biomeType = currentFishingSupplies.BiomeType
 		if biomeType == BIOME_TYPE_STREAM
 			if GetInRain()
@@ -717,8 +721,40 @@ ccBGSSSE001_CatchData function GetNextCatchData()
 		endif
 
 		catchData = GetNextFishCatchData(catchDataList)
-	else ;; LLFP: will only catch junk if that spell is active
+
+	elseif PlayerRef.HasMagicEffect(_LLFP_JunkSpellEffect) ;; Junk spell active
+
 		catchData = GetNextJunkCatchData(GetJunkCatchDataList())
+
+	elseif catchTypeRoll >= catchChanceFish ; Vanilla fish roll  (repeat chunk, using a function causes issues)
+		int biomeType = currentFishingSupplies.BiomeType
+		if biomeType == BIOME_TYPE_STREAM
+			if GetInRain()
+				catchDataList = ccBGSSSE001_FishCatchDataListTemperateStreamRain
+			else
+				catchDataList = ccBGSSSE001_FishCatchDataListTemperateStreamClear
+			endif
+
+		elseif biomeType == BIOME_TYPE_LAKE
+			if GetInRain()
+				catchDataList = ccBGSSSE001_FishCatchDataListTemperateLakeRain
+			else
+				catchDataList = ccBGSSSE001_FishCatchDataListTemperateLakeClear
+			endif
+
+		elseif biomeType == BIOME_TYPE_ARCTIC
+			catchDataList = ccBGSSSE001_FishCatchDataListArctic
+
+		elseif biomeType == BIOME_TYPE_CAVE
+			catchDataList = ccBGSSSE001_FishCatchDataListCave
+		endif
+
+		catchData = GetNextFishCatchData(catchDataList)
+
+	elseif catchTypeRoll < catchChanceFish ; Vanilla junk roll
+
+		catchData = GetNextJunkCatchData(GetJunkCatchDataList())
+
 	endif
 	
 	; If this was a one-time-only catch, check to see if it is in the caught list.

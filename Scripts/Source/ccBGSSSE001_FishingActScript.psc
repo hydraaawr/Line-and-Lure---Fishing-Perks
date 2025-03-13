@@ -126,16 +126,16 @@ function UpdateFishCatchSuccess()
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) && QuestScript.LastCaughtObject !=  NONE
+	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
 
-		Debug.Notification("Double catch triggered")
+		Debug.Notification("Double catch triggered with fish")
 
 		PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
 
 		QuestScript.LastCaughtObject = NONE ; Reset
 
 	else
-			Debug.Notification("Have Doublecatch perk, but not correct prey")
+			Debug.Notification("Have Doublecatch perk, but not right fish/no doublecatch active")
 	endif
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 endFunction

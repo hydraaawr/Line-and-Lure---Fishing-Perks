@@ -308,6 +308,9 @@ Weather property SkyrimStormRain auto
 
 ;;;;;;;;;; LLFP;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+Perk Property _LLFP_MoreCatch_Perk auto
+LLFP_QuestScript Property QuestScript auto
+
 Perk Property _LLFP_MoreRarityJunk_Perk01 auto
 ;; Default values of the following globals related to MoreRarityJunk result in a global default of 62% chance of common, 34% uncommon, 4% rare
 GlobalVariable Property _LLFP_CommonJunkBonus01 auto ; Default: .03
@@ -1142,6 +1145,21 @@ function CatchSuccess()
 		RadiantFishEventListener.CatchEvent(caughtObject, catchType)
 	endif
 
+	;; LLFP  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; Double catch perk  for items
+	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
+
+		Debug.Notification("Double catch triggered with item")
+
+		PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
+
+		QuestScript.LastCaughtObject = NONE ; Reset
+
+	else
+			Debug.Notification("Have Doublecatch perk, but not right item/no doublecatch active")
+	endif
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	
 	CleanUp()
 endFunction
 

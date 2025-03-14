@@ -1241,16 +1241,22 @@ function CatchSuccess()
 	;; LLFP  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; Double catch perk  for items
 	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
+		;; Random chance system
+		int MoreCatchRoll = RandomInt(aiMin = 1, aiMax = 2)
+		if(MoreCatchRoll == 1) ; 50% chance
+			Debug.Notification("Double catch triggered with item")
 
-		Debug.Notification("Double catch triggered with item")
+			PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
 
-		PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
-
-		QuestScript.LastCaughtObject = NONE ; Reset
-
+		Else
+			Debug.Notification("Bad Roll for doublecatch")
+		endif
+		
 	else
 			Debug.Notification("Have Doublecatch perk, but not right item/no doublecatch active")
 	endif
+
+	QuestScript.LastCaughtObject = NONE ; Reset
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 	CleanUp()

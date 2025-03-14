@@ -307,12 +307,27 @@ Weather property SkyrimStormRain auto
 { The weather to force to when wearing equipment that summons rain. }
 
 ;;;;;;;;;; LLFP;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; More catch perk
 Perk Property _LLFP_MoreCatch_Perk auto
 LLFP_QuestScript Property QuestScript auto
 
+;; MoreRarityFish perk
+GlobalVariable Property _LLFP_CommonFishBonus auto ; Default: .03
+GlobalVariable Property _LLFP_UnCommonFishBonus auto; Default: .01
 
+Perk Property _LLFP_MoreRarityFish_Perk01 auto
+;; Default values of the following globals related to MoreRarityFish 1 result in a global default of 62% chance of common, 34% uncommon, 4% rare
+GlobalVariable Property _LLFP_FishBonusMult01 auto ;  default: 1
 
+Perk Property _LLFP_MoreRarityFish_Perk02 auto
+;; Default values of the following globals related to MoreRarityFish 2 result in a global default of 59% chance of common, 36% uncommon, 5% rare
+GlobalVariable Property _LLFP_FishBonusMult02 auto ;  default: 2
+
+Perk Property _LLFP_MoreRarityFish_Perk03 auto
+;; Default values of the following globals related to MoreRarityFish 3 result in a global default of 56% chance of common, 38% uncommon, 6% rare
+GlobalVariable Property _LLFP_FishBonusMult03 auto ;  default: 3
+
+;; MoreRarityJunk perk
 GlobalVariable Property _LLFP_CommonJunkBonus auto ; Default: .03
 GlobalVariable Property _LLFP_UnCommonJunkBonus auto; Default: .01
 
@@ -328,12 +343,15 @@ Perk Property _LLFP_MoreRarityJunk_Perk03 auto
 ;; Default values of the following globals related to MoreRarityJunk 3 result in a global default of 56% chance of common, 38% uncommon, 6% rare
 GlobalVariable Property _LLFP_JunkBonusMult03 auto ;  default: 3
 
+;; Fishspell perk
 Perk Property _LLFP_FishSpell_Perk01 auto
 MagicEffect Property _LLFP_FishSpellEffect auto
 
+;; JunkSpell Perk
 Perk Property _LLFP_JunkSpell_Perk01 auto
 MagicEffect Property _LLFP_JunkSpellEffect auto
 
+;; Less casting time Perk
 Perk Property _LLFP_LessCastingTime_Perk01 auto
 GlobalVariable Property _LLFP_CastingTimeRed01 auto ; fishing time reduction. Default = .2
 Perk Property _LLFP_LessCastingTime_Perk02 auto
@@ -869,6 +887,35 @@ ccBGSSSE001_CatchData function GetNextFishCatchData(FormList akCatchDataList)
 		catchThresholdCommonFish += MORNING_EVENING_COMMONFISH_THRESHOLD_ADJUST
 		catchThresholdUncommonFish += MORNING_EVENING_UNCOMMONFISH_THRESHOLD_ADJUST
 	endif
+
+	;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; More Fish perk modifies the chances of getting rarer Fish .The idea is to lower common and increase uncommon and rare
+	Debug.Notification("catchThresholdCommonFish before perk = " + catchThresholdCommonFish)
+	Debug.Notification("catchThresholdUnCommonFish before perk = " + catchThresholdUnCommonFish)
+
+
+	float CurrentFishBonusMult
+
+	if PlayerRef.HasPerk(_LLFP_MoreRarityFish_Perk03)
+		CurrentFishBonusMult =_LLFP_FishBonusMult03.GetValue()
+	elseif PlayerRef.HasPerk(_LLFP_MoreRarityFish_Perk02)
+		CurrentFishBonusMult =_LLFP_FishBonusMult02.GetValue()
+	elseif PlayerRef.HasPerk(_LLFP_MoreRarityFish_Perk01)
+		CurrentFishBonusMult =_LLFP_FishBonusMult01.GetValue()
+	endIf
+
+	Debug.Notification("CurrentFishBonusMult =  " + CurrentFishBonusMult)
+	;; Multiply bonus depending on perk
+	
+	float CurrentCommonFishBonus = _LLFP_CommonFishBonus.GetValue() * CurrentFishBonusMult
+	float CurrentUnCommonFishBonus = _LLFP_UnCommonFishBonus.GetValue() * CurrentFishBonusMult
+
+	; Sum it to vanilla base threshold
+	catchThresholdCommonFish += CurrentCommonFishBonus
+	catchThresholdUncommonFish += CurrentUnCommonFishBonus
+	Debug.Notification("catchThresholdCommonFish after perk = " + catchThresholdCommonFish)
+	Debug.Notification("catchThresholdUnCommonFish after perk = " + catchThresholdUnCommonFish)
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	if rarityRoll >= catchThresholdCommonFish
 		rarityListIndex = RARITY_LIST_COMMON_INDEX

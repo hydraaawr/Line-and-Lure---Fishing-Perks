@@ -311,11 +311,22 @@ Weather property SkyrimStormRain auto
 Perk Property _LLFP_MoreCatch_Perk auto
 LLFP_QuestScript Property QuestScript auto
 
-Perk Property _LLFP_MoreRarityJunk_Perk01 auto
-;; Default values of the following globals related to MoreRarityJunk result in a global default of 62% chance of common, 34% uncommon, 4% rare
-GlobalVariable Property _LLFP_CommonJunkBonus01 auto ; Default: .03
-GlobalVariable Property _LLFP_UnCommonJunkBonus01 auto; Default: .01
 
+
+GlobalVariable Property _LLFP_CommonJunkBonus auto ; Default: .03
+GlobalVariable Property _LLFP_UnCommonJunkBonus auto; Default: .01
+
+Perk Property _LLFP_MoreRarityJunk_Perk01 auto
+;; Default values of the following globals related to MoreRarityJunk 1 result in a global default of 62% chance of common, 34% uncommon, 4% rare
+GlobalVariable Property _LLFP_JunkBonusMult01 auto ;  default: 1
+
+Perk Property _LLFP_MoreRarityJunk_Perk02 auto
+;; Default values of the following globals related to MoreRarityJunk 2 result in a global default of 59% chance of common, 36% uncommon, 5% rare
+GlobalVariable Property _LLFP_JunkBonusMult02 auto ;  default: 2
+
+Perk Property _LLFP_MoreRarityJunk_Perk03 auto
+;; Default values of the following globals related to MoreRarityJunk 3 result in a global default of 56% chance of common, 38% uncommon, 6% rare
+GlobalVariable Property _LLFP_JunkBonusMult03 auto ;  default: 3
 
 Perk Property _LLFP_FishSpell_Perk01 auto
 MagicEffect Property _LLFP_FishSpellEffect auto
@@ -940,13 +951,28 @@ ccBGSSSE001_CatchData function GetNextJunkCatchData(FormList akCatchDataList)
 	Debug.Notification("catchThresholdCommonJunk before perk = " + catchThresholdCommonJunk)
 	Debug.Notification("catchThresholdUnCommonJunk before perk = " + catchThresholdUnCommonJunk)
 
-	if PlayerRef.HasPerk(_LLFP_MoreRarityJunk_Perk01)
-		catchThresholdCommonJunk += _LLFP_CommonJunkBonus01.GetValue()
-		catchThresholdUncommonJunk += _LLFP_UnCommonJunkBonus01.GetValue()
-		Debug.Notification("catchThresholdCommonJunk after perk = " + catchThresholdCommonJunk)
-		Debug.Notification("catchThresholdUnCommonJunk after perk = " + catchThresholdUnCommonJunk)
+
+	float CurrentJunkBonusMult
+
+	if PlayerRef.HasPerk(_LLFP_MoreRarityJunk_Perk03)
+		CurrentJunkBonusMult =_LLFP_JunkBonusMult03.GetValue()
+	elseif PlayerRef.HasPerk(_LLFP_MoreRarityJunk_Perk02)
+		CurrentJunkBonusMult =_LLFP_JunkBonusMult02.GetValue()
+	elseif PlayerRef.HasPerk(_LLFP_MoreRarityJunk_Perk01)
+		CurrentJunkBonusMult =_LLFP_JunkBonusMult01.GetValue()
 	endIf
 
+	Debug.Notification("CurrentJunkBonusMult =  " + CurrentJunkBonusMult)
+	;; Multiply bonus depending on perk
+	
+	float CurrentCommonJunkBonus = _LLFP_CommonJunkBonus.GetValue() * CurrentJunkBonusMult
+	float CurrentUnCommonJunkBonus = _LLFP_UnCommonJunkBonus.GetValue() * CurrentJunkBonusMult
+
+	; Sum it to vanilla base threshold
+	catchThresholdCommonJunk += CurrentCommonJunkBonus
+	catchThresholdUncommonJunk += CurrentUnCommonJunkBonus
+	Debug.Notification("catchThresholdCommonJunk after perk = " + catchThresholdCommonJunk)
+	Debug.Notification("catchThresholdUnCommonJunk after perk = " + catchThresholdUnCommonJunk)
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	if rarityRoll >= catchThresholdCommonJunk

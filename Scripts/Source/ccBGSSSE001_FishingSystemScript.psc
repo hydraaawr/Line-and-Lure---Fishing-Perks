@@ -1569,8 +1569,8 @@ float function GetSmallCatchThresholdModifier()
 endFunction
 
 float function GetInitialWaitingPeriod()
-	;return DURATION_INITIAL_WAITING_PERIOD + (RandomFloat(-DURATION_INITIAL_WAITING_PERIOD_VARIANCE, DURATION_INITIAL_WAITING_PERIOD_VARIANCE))
-	return (2) ;; LLFP DEBUG VALUE
+	return DURATION_INITIAL_WAITING_PERIOD + (RandomFloat(-DURATION_INITIAL_WAITING_PERIOD_VARIANCE, DURATION_INITIAL_WAITING_PERIOD_VARIANCE))
+	;return (2) ;; LLFP DEBUG VALUE
 endFunction
 
 int function GetFishBasePopulation()

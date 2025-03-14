@@ -323,6 +323,9 @@ MagicEffect Property _LLFP_FishSpellEffect auto
 Perk Property _LLFP_JunkSpell_Perk01 auto
 MagicEffect Property _LLFP_JunkSpellEffect auto
 
+Perk Property _LLFP_LessFishingTime_Perk01 auto
+float Property _LLFP_Duration01 = 0.0 auto ; change to global
+float property initTime auto ;; DEBUG
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;/ 
@@ -617,8 +620,17 @@ function Fish(bool abContinueFishing = false)
 	FishingDebug("  === Catch Type: " + nextCatchData.getCatchType())
 
 	; Begin Fishing
+	;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; Begin Fishing
 	PlayCastAnimation()
-	Wait(DURATION_CAST)
+	initTime = Utility.GetCurrentRealTime()
+	; Debug.Notification(initTime)
+	if(PlayerRef.HasPerk(_LLFP_LessFishingTime_Perk01))
+		Wait(_LLFP_Duration01)
+	else
+		Wait(DURATION_CAST)
+	endif
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	; Failsafe
 	PlayVisualPopulationAnimation()
@@ -1273,7 +1285,8 @@ function PlayHookedFishAnimation()
 
 	; Give the animation a beat
 	Wait(DURATION_HOOKED_ANIM_WAIT)
-
+	float diffTime = Utility.GetCurrentRealTime() - initTime ;; LLFP DEBUG
+	Debug.Notification(diffTime) ;; LLFP DEBUG
 	int catchType = nextCatchData.getCatchType()
 
 	; Failsafe

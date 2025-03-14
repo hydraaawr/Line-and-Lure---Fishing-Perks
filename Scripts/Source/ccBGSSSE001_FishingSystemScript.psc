@@ -323,8 +323,8 @@ MagicEffect Property _LLFP_FishSpellEffect auto
 Perk Property _LLFP_JunkSpell_Perk01 auto
 MagicEffect Property _LLFP_JunkSpellEffect auto
 
-Perk Property _LLFP_LessFishingTime_Perk01 auto
-float Property _LLFP_Duration01 = 0.0 auto ; change to global
+Perk Property _LLFP_LessCastingTime_Perk01 auto
+GlobalVariable Property _LLFP_CastingTimeRed01 auto ; fishing time reduction. Default = .2
 float property initTime auto ;; DEBUG
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -625,8 +625,8 @@ function Fish(bool abContinueFishing = false)
 	PlayCastAnimation()
 	initTime = Utility.GetCurrentRealTime()
 	; Debug.Notification(initTime)
-	if(PlayerRef.HasPerk(_LLFP_LessFishingTime_Perk01))
-		Wait(_LLFP_Duration01)
+	if(PlayerRef.HasPerk(_LLFP_LessCastingTime_Perk01))
+		Wait(DURATION_CAST - _LLFP_CastingTimeRed01.GetValue() * DURATION_CAST)
 	else
 		Wait(DURATION_CAST)
 	endif
@@ -1310,6 +1310,8 @@ function PlayHookedObjectAnimation()
 
 	; Give the animation a beat
 	Wait(DURATION_HOOKED_ANIM_WAIT)
+	float diffTime = Utility.GetCurrentRealTime() - initTime ;; LLFP DEBUG
+	Debug.Notification(diffTime) ;; LLFP DEBUG
 
 	; Failsafe
 	fishingRodActivator.PlayAnimation(LINETUG_OBJECT_ANIM)
@@ -1559,7 +1561,8 @@ float function GetSmallCatchThresholdModifier()
 endFunction
 
 float function GetInitialWaitingPeriod()
-	return DURATION_INITIAL_WAITING_PERIOD + (RandomFloat(-DURATION_INITIAL_WAITING_PERIOD_VARIANCE, DURATION_INITIAL_WAITING_PERIOD_VARIANCE))
+	;return DURATION_INITIAL_WAITING_PERIOD + (RandomFloat(-DURATION_INITIAL_WAITING_PERIOD_VARIANCE, DURATION_INITIAL_WAITING_PERIOD_VARIANCE))
+	return (2) ;; LLFP DEBUG VALUE
 endFunction
 
 int function GetFishBasePopulation()

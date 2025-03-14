@@ -325,6 +325,10 @@ MagicEffect Property _LLFP_JunkSpellEffect auto
 
 Perk Property _LLFP_LessCastingTime_Perk01 auto
 GlobalVariable Property _LLFP_CastingTimeRed01 auto ; fishing time reduction. Default = .2
+Perk Property _LLFP_LessCastingTime_Perk02 auto
+GlobalVariable Property _LLFP_CastingTimeRed02 auto ; fishing time reduction. Default = .4
+Perk Property _LLFP_LessCastingTime_Perk03 auto
+GlobalVariable Property _LLFP_CastingTimeRed03 auto ; fishing time reduction. Default = .6
 float property initTime auto ;; DEBUG
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -625,7 +629,11 @@ function Fish(bool abContinueFishing = false)
 	PlayCastAnimation()
 	initTime = Utility.GetCurrentRealTime()
 	; Debug.Notification(initTime)
-	if(PlayerRef.HasPerk(_LLFP_LessCastingTime_Perk01))
+	if(PlayerRef.HasPerk(_LLFP_LessCastingTime_Perk03))
+		Wait(DURATION_CAST - _LLFP_CastingTimeRed03.GetValue() * DURATION_CAST)
+	elseif(PlayerRef.HasPerk(_LLFP_LessCastingTime_Perk02))
+		Wait(DURATION_CAST - _LLFP_CastingTimeRed02.GetValue() * DURATION_CAST)
+	elseif(PlayerRef.HasPerk(_LLFP_LessCastingTime_Perk01))
 		Wait(DURATION_CAST - _LLFP_CastingTimeRed01.GetValue() * DURATION_CAST)
 	else
 		Wait(DURATION_CAST)

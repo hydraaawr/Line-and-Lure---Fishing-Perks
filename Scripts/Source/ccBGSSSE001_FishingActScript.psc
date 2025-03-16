@@ -54,7 +54,7 @@ FormList property myOverrideJunkCatchDataList auto
 ;;;;;;;;;; LLFP;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Actor Property PlayerRef auto
-Perk Property _LLFP_MoreCatch_Perk auto
+Perk Property _LLFP_MoreCatch_Perk01 auto
 LLFP_QuestScript Property QuestScript auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -126,7 +126,7 @@ function UpdateFishCatchSuccess()
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
+	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
 		;; Random chance system
 		int MoreCatchRoll = RandomInt(aiMin = 1, aiMax = 2)
 		if(MoreCatchRoll == 1) ; 50% chance

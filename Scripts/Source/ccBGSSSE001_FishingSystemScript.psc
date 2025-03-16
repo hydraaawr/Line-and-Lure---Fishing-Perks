@@ -308,7 +308,7 @@ Weather property SkyrimStormRain auto
 
 ;;;;;;;;;; LLFP;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; More catch perk
-Perk Property _LLFP_MoreCatch_Perk auto
+Perk Property _LLFP_MoreCatch_Perk01 auto
 LLFP_QuestScript Property QuestScript auto
 
 ;; MoreRarityFish perk
@@ -1240,7 +1240,7 @@ function CatchSuccess()
 
 	;; LLFP  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; Double catch perk  for items
-	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
+	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
 		;; Random chance system
 		int MoreCatchRoll = RandomInt(aiMin = 1, aiMax = 2)
 		if(MoreCatchRoll == 1) ; 50% chance

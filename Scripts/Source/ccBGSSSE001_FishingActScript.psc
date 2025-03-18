@@ -121,7 +121,7 @@ function UpdateFishCatchSuccess()
 	Debug.Notification("Updating fish catch Success...")
 	
 	; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
-	float SkillAdvanceMagnitude = ((100+(5 * CustomSkills.GetSkillLevel("fishing")))/2) * _LLFP_SkillAdvanceMult.GetValue()
+	float SkillAdvanceMagnitude = ((10+(10 * CustomSkills.GetSkillLevel("fishing")))/2) * _LLFP_SkillAdvanceMult.GetValue()
 	Utility.Wait(1)
 	CustomSkills.AdvanceSkill("fishing", SkillAdvanceMagnitude)
 

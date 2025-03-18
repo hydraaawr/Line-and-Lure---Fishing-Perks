@@ -56,6 +56,7 @@ FormList property myOverrideJunkCatchDataList auto
 Actor Property PlayerRef auto
 Perk Property _LLFP_MoreCatch_Perk01 auto
 LLFP_QuestScript Property QuestScript auto
+GlobalVariable Property _LLFP_SkillBaseAdvPerc auto ; Base skill advancing percentage per succesful catch
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -122,7 +123,7 @@ function UpdateFishCatchSuccess()
 	; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
 
 	Utility.Wait(1)
-	CustomSkills.AdvanceSkill("fishing",50) ; TODO: a formula of progression level by level
+	CustomSkills.AdvanceSkill("fishing", _LLFP_SkillBaseAdvPerc.GetValue()*100) ; Default 15%
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -56,6 +56,7 @@ FormList property myOverrideJunkCatchDataList auto
 Actor Property PlayerRef auto
 Perk Property _LLFP_MoreCatch_Perk01 auto
 LLFP_QuestScript Property QuestScript auto
+GlobalVariable Property _LLFP_SkillAdvanceMult auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -120,9 +121,9 @@ function UpdateFishCatchSuccess()
 	Debug.Notification("Updating fish catch Success...")
 	
 	; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
-
+	float SkillAdvanceMagnitude = ((100+(5 * CustomSkills.GetSkillLevel("fishing")))/2) * _LLFP_SkillAdvanceMult.GetValue()
 	Utility.Wait(1)
-	CustomSkills.AdvanceSkill("fishing",50) ; TODO: a formula of progression level by level
+	CustomSkills.AdvanceSkill("fishing", SkillAdvanceMagnitude)
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

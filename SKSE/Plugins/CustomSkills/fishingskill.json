@@ -50,28 +50,28 @@
         {
           "id": "MoreRarityFish",
           "perk": "LLFP.esp|02C",
-          "x": -0.3,
+          "x": 0,
           "y": 2.5,
 		  "links": [ "FishSpell" ]
         },
 		{
           "id": "MoreRarityJunk",
           "perk": "LLFP.esp|00D",
-          "x": -1.2,
+          "x": -1.1,
           "y": 2.5,
 		  "links": [ "JunkSpell" ]
         },
         {
           "id": "FishSpell",
           "perk": "LLFP.esp|016",
-          "x": -0.8,
+          "x": -0.6,
           "y": 2.9,
 		  "links": [ "MoreCatch" ]
         },
 		{
           "id": "JunkSpell",
           "perk": "LLFP.esp|010",
-          "x": -1.8,
+          "x": -1.6,
           "y": 2.9,
 		  "links": [ "MoreCatch" ]
         },

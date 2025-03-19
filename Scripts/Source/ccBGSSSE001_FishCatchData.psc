@@ -29,7 +29,7 @@ LLFP_QuestScript Property QuestScript auto
 ;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
 Form function getCaughtObject()
-	Debug.Notification("Getting caught fish...")
+	;Debug.Notification("Getting caught fish...")
 	Form caughtObject = None
 	
 	if fishFood

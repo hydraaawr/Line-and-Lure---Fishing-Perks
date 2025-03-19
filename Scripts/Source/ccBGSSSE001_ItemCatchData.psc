@@ -14,7 +14,7 @@ LLFP_QuestScript Property QuestScript auto
 ;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Form function getCaughtObject()
-	Debug.Notification("Getting caught item...")
+	;Debug.Notification("Getting caught item...")
 	Form caughtObject = item
 	; Capture object for later use
 	QuestScript.LastCaughtObject = caughtObject

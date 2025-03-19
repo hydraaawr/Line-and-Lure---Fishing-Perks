@@ -118,7 +118,7 @@ endFunction
 function UpdateFishCatchSuccess()
 	; EXTEND
 	;;;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	Debug.Notification("Updating fish catch Success...")
+	; Debug.Notification("Updating fish catch Success...")
 	
 	; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
 	float SkillAdvanceMagnitude = ((10+(10 * CustomSkills.GetSkillLevel("fishing")))/2) * _LLFP_SkillAdvanceMult.GetValue()
@@ -131,16 +131,16 @@ function UpdateFishCatchSuccess()
 		;; Random chance system
 		int MoreCatchRoll = RandomInt(aiMin = 1, aiMax = 2)
 		if(MoreCatchRoll == 1) ; 50% chance
-		Debug.Notification("Double catch triggered with fish")
+		Debug.Notification("Double Catch!")
 
 		PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
 
-		else
-			Debug.Notification("Bad Roll for doublecatch")
+		; else
+		; 	Debug.Notification("Bad Roll for doublecatch")
 		endif
 
-	else
-			Debug.Notification("Have Doublecatch perk, but not right fish/no doublecatch active")
+	; else
+	; 		Debug.Notification("Have Doublecatch perk, but not right fish/no doublecatch active")
 	endif
 
 	QuestScript.LastCaughtObject = NONE ; Reset

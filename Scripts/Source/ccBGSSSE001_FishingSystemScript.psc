@@ -1244,16 +1244,16 @@ function CatchSuccess()
 		;; Random chance system
 		int MoreCatchRoll = RandomInt(aiMin = 1, aiMax = 2)
 		if(MoreCatchRoll == 1) ; 50% chance
-			Debug.Notification("Double catch triggered with item")
+			Debug.Notification("Double Catch!")
 
 			PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
 
-		Else
-			Debug.Notification("Bad Roll for doublecatch")
+		; Else
+		; 	Debug.Notification("Bad Roll for doublecatch")
 		endif
 		
-	else
-			Debug.Notification("Have Doublecatch perk, but not right item/no doublecatch active")
+	; else
+	; 		Debug.Notification("Have Doublecatch perk, but not right item/no doublecatch active")
 	endif
 
 	QuestScript.LastCaughtObject = NONE ; Reset

@@ -406,7 +406,7 @@ ccBGSSSE001_RadiantFishEventListener RadiantFishEventListener
 
 Event OnInit()
 
-	Debug.Notification("Init fishingsystemscript test")
+	Debug.Notification("Line and Lure Initialized")
 
 
 EndEvent
@@ -890,8 +890,8 @@ ccBGSSSE001_CatchData function GetNextFishCatchData(FormList akCatchDataList)
 
 	;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; More Fish perk modifies the chances of getting rarer Fish .The idea is to lower common and increase uncommon and rare
-	Debug.Notification("catchThresholdCommonFish before perk = " + catchThresholdCommonFish)
-	Debug.Notification("catchThresholdUnCommonFish before perk = " + catchThresholdUnCommonFish)
+	; Debug.Notification("catchThresholdCommonFish before perk = " + catchThresholdCommonFish)
+	; Debug.Notification("catchThresholdUnCommonFish before perk = " + catchThresholdUnCommonFish)
 
 
 	float CurrentFishBonusMult
@@ -904,7 +904,7 @@ ccBGSSSE001_CatchData function GetNextFishCatchData(FormList akCatchDataList)
 		CurrentFishBonusMult =_LLFP_FishBonusMult01.GetValue()
 	endIf
 
-	Debug.Notification("CurrentFishBonusMult =  " + CurrentFishBonusMult)
+	;Debug.Notification("CurrentFishBonusMult =  " + CurrentFishBonusMult)
 	;; Multiply bonus depending on perk
 	
 	float CurrentCommonFishBonus = _LLFP_CommonFishBonus.GetValue() * CurrentFishBonusMult
@@ -913,8 +913,8 @@ ccBGSSSE001_CatchData function GetNextFishCatchData(FormList akCatchDataList)
 	; Sum it to vanilla base threshold
 	catchThresholdCommonFish += CurrentCommonFishBonus
 	catchThresholdUncommonFish += CurrentUnCommonFishBonus
-	Debug.Notification("catchThresholdCommonFish after perk = " + catchThresholdCommonFish)
-	Debug.Notification("catchThresholdUnCommonFish after perk = " + catchThresholdUnCommonFish)
+	; Debug.Notification("catchThresholdCommonFish after perk = " + catchThresholdCommonFish)
+	; Debug.Notification("catchThresholdUnCommonFish after perk = " + catchThresholdUnCommonFish)
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	if rarityRoll >= catchThresholdCommonFish

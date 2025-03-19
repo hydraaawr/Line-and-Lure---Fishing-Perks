@@ -1372,8 +1372,8 @@ function PlayHookedFishAnimation()
 
 	; Give the animation a beat
 	Wait(DURATION_HOOKED_ANIM_WAIT)
-	float diffTime = Utility.GetCurrentRealTime() - initTime ;; LLFP DEBUG
-	Debug.Notification(diffTime) ;; LLFP DEBUG
+	;float diffTime = Utility.GetCurrentRealTime() - initTime ;; LLFP DEBUG
+	;Debug.Notification(diffTime) ;; LLFP DEBUG
 	int catchType = nextCatchData.getCatchType()
 
 	; Failsafe
@@ -1397,8 +1397,8 @@ function PlayHookedObjectAnimation()
 
 	; Give the animation a beat
 	Wait(DURATION_HOOKED_ANIM_WAIT)
-	float diffTime = Utility.GetCurrentRealTime() - initTime ;; LLFP DEBUG
-	Debug.Notification(diffTime) ;; LLFP DEBUG
+	;float diffTime = Utility.GetCurrentRealTime() - initTime ;; LLFP DEBUG
+	;Debug.Notification(diffTime) ;; LLFP DEBUG
 
 	; Failsafe
 	fishingRodActivator.PlayAnimation(LINETUG_OBJECT_ANIM)

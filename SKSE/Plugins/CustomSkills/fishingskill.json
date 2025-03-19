@@ -12,7 +12,7 @@
     {
       "id": "fishing",
       "name": "Fishing",
-      "description": "Fishing Description",
+      "description": "The tranquil art of casting a line and reeling in the catch. A skilled angler can hook rarer fish and uncover hidden treasures beneath the water’s surface, reeling them in with ease.",
       "level": "LLFP.esp|D63",
       "ratio": "LLFP.esp|D65",
       "legendary": "LLFP.esp|002",

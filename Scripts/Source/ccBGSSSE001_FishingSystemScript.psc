@@ -995,8 +995,8 @@ ccBGSSSE001_CatchData function GetNextJunkCatchData(FormList akCatchDataList)
 
 	;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; More junk perk modifies the chances of getting rarer junk .The idea is to lower common and increase uncommon and rare
-	Debug.Notification("catchThresholdCommonJunk before perk = " + catchThresholdCommonJunk)
-	Debug.Notification("catchThresholdUnCommonJunk before perk = " + catchThresholdUnCommonJunk)
+	; Debug.Notification("catchThresholdCommonJunk before perk = " + catchThresholdCommonJunk)
+	; Debug.Notification("catchThresholdUnCommonJunk before perk = " + catchThresholdUnCommonJunk)
 
 
 	float CurrentJunkBonusMult
@@ -1009,7 +1009,7 @@ ccBGSSSE001_CatchData function GetNextJunkCatchData(FormList akCatchDataList)
 		CurrentJunkBonusMult =_LLFP_JunkBonusMult01.GetValue()
 	endIf
 
-	Debug.Notification("CurrentJunkBonusMult =  " + CurrentJunkBonusMult)
+	; Debug.Notification("CurrentJunkBonusMult =  " + CurrentJunkBonusMult)
 	;; Multiply bonus depending on perk
 	
 	float CurrentCommonJunkBonus = _LLFP_CommonJunkBonus.GetValue() * CurrentJunkBonusMult
@@ -1018,8 +1018,8 @@ ccBGSSSE001_CatchData function GetNextJunkCatchData(FormList akCatchDataList)
 	; Sum it to vanilla base threshold
 	catchThresholdCommonJunk += CurrentCommonJunkBonus
 	catchThresholdUncommonJunk += CurrentUnCommonJunkBonus
-	Debug.Notification("catchThresholdCommonJunk after perk = " + catchThresholdCommonJunk)
-	Debug.Notification("catchThresholdUnCommonJunk after perk = " + catchThresholdUnCommonJunk)
+	; Debug.Notification("catchThresholdCommonJunk after perk = " + catchThresholdCommonJunk)
+	; Debug.Notification("catchThresholdUnCommonJunk after perk = " + catchThresholdUnCommonJunk)
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	if rarityRoll >= catchThresholdCommonJunk

@@ -2,11 +2,11 @@
   "$schema": "https://raw.githubusercontent.com/Exit-9B/CustomSkills/main/docs/schema/CustomSkill.json",
   "version": 1,
   "skydome": {
-    "model": "DLC01/Interface/INTVampirePerkSkydome.nif",
+    "model": "LLFP/Interface/intllfpskydome.nif",
     "cameraRightPoint": 2
   },
   "showMenu": "LLFP.esp|D62",
-  "debugReload": "LLFP.esp|182F",
+  "debugReload": "LLFP.esp|001",
   "perkPoints": null,
   "skills": [
     {
@@ -23,34 +23,63 @@
         "useOffset": 0.0,
         "improveMult": 1.0,
         "improveOffset": 0.0,
-        "enableXPPerRank": false
+        "enableXPPerRank": true
       },
       "nodes": [
         {
-          "id": "perk01",
+          "id": "DetectBiome",
+          "perk": "LLFP.esp|009",
+          "x": 0,
+          "y": -0.3,
+          "links": [ "BetterPrice" ]
+        },
+        {
+          "id": "BetterPrice",
+          "perk": "LLFP.esp|00B",
+          "x": 2.5,
+          "y": 0.5,
+          "links": [ "LessCastingTime" ]
+        },
+        {
+          "id": "LessCastingTime",
+          "perk": "LLFP.esp|01E",
+          "x": 1,
+          "y": 2,
+          "links": [ "MoreRarityFish", "MoreRarityJunk" ]
+        },
+        {
+          "id": "MoreRarityFish",
+          "perk": "LLFP.esp|02C",
+          "x": -0.3,
+          "y": 2.5,
+		  "links": [ "FishSpell" ]
+        },
+		{
+          "id": "MoreRarityJunk",
+          "perk": "LLFP.esp|00D",
+          "x": -1.2,
+          "y": 2.5,
+		  "links": [ "JunkSpell" ]
+        },
+        {
+          "id": "FishSpell",
+          "perk": "LLFP.esp|016",
+          "x": -0.8,
+          "y": 2.9,
+		  "links": [ "MoreCatch" ]
+        },
+		{
+          "id": "JunkSpell",
+          "perk": "LLFP.esp|010",
+          "x": -1.8,
+          "y": 2.9,
+		  "links": [ "MoreCatch" ]
+        },
+		{
+          "id": "MoreCatch",
           "perk": "LLFP.esp|003",
-          "x": 1.5,
-          "y": 0,
-          "links": [ "perk02" ]
-        },
-        {
-          "id": "perk02",
-          "perk": "LLFP.esp|004",
-          "x": 1.5,
-          "y": 1,
-          "links": [ "perk03_0", "perk03_1" ]
-        },
-        {
-          "id": "perk03_0",
-          "perk": "LLFP.esp|005",
-          "x": 1.5,
-          "y": 2
-        },
-        {
-          "id": "perk03_1",
-          "perk": "LLFP.esp|006",
-          "x": 0.5,
-          "y": 2
+          "x": -5,
+          "y": 3.5
         }
       ]
     }

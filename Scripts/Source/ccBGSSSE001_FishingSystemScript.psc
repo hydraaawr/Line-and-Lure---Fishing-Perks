@@ -5,7 +5,7 @@ Scriptname ccBGSSSE001_FishingSystemScript extends Quest
 }
 
 Import Utility
-
+Import TrueDirectionalMovement
 
 ;/ 
  / ==========================
@@ -359,6 +359,37 @@ GlobalVariable Property _LLFP_CastingTimeRed02 auto ; fishing time reduction. De
 Perk Property _LLFP_LessCastingTime_Perk03 auto
 GlobalVariable Property _LLFP_CastingTimeRed03 auto ; fishing time reduction. Default = .6
 float property initTime auto ;; DEBUG
+
+
+GlobalVariable Property _LLFP_SkillAdvanceMult auto
+Bool Property FishCaught auto 
+
+;; LLFP: SFO compat properties
+Idle Property IdleStop_Loose  Auto  
+
+Idle Property IdleSearchingChest Auto
+
+Idle Property idlecowerexit Auto
+
+idle property idlecoweringloose auto
+
+GlobalVariable Property AnimatedFishing_Global Auto
+
+GlobalVariable Property RodHeight Auto
+
+GlobalVariable Property BaitReq Auto
+
+GlobalVariable Property FishingCamera Auto
+
+weapon weapon1
+
+weapon weapon2
+
+Message Property AnimatedFishing_NoBait Auto
+
+Formlist Property AnimatedFishing_Bait Auto
+
+Bool WasInThird
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;/ 
@@ -628,7 +659,8 @@ function RecalculateFishPopulation()
 	endif
 endFunction
 
-function Fish(bool abContinueFishing = false)
+function Fish(bool abContinueFishing)
+	ToggleDisableHeadtracking(False, True) ;; LLFP: Taken from SFO for its compatibility
 	currentFishingSupplies.UpdateFish()
 	DialogueQuest.StartUpdating()
 
@@ -715,11 +747,14 @@ function ShowCatchPrompt()
 endFunction
 
 function ReturnSurroundingVolumes()
-	ObjectReference returnRef = ReelLineRef.GetLinkedRef()
-	ReelLineRef.MoveTo(returnRef)
-	MoveDetectRef.MoveTo(returnRef)
-	ccBGSSSE001_NavBlockerRef.MoveTo(returnRef)
+
+	objectreference returnRef = ReelLineRef.GetLinkedRef(none)
+	ReelLineRef.MoveTo(returnRef, 0.000000, 0.000000, 0.000000, true)
+	MoveDetectRef.MoveTo(returnRef, 0.000000, 0.000000, 0.000000, true)
+	ccBGSSSE001_NavBlockerRef.MoveTo(returnRef, 0.000000, 0.000000, 0.000000, true)
 endFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ccBGSSSE001_CatchData function GetNextCatchData()
 	FormList catchDataList
@@ -775,10 +810,12 @@ ccBGSSSE001_CatchData function GetNextCatchData()
 		endif
 
 		catchData = GetNextFishCatchData(catchDataList)
+		FishCaught = TRUE
 
 	elseif PlayerRef.HasMagicEffect(_LLFP_JunkSpellEffect) ;; Junk spell active
 
 		catchData = GetNextJunkCatchData(GetJunkCatchDataList())
+		FishCaught = FALSE
 
 	elseif catchTypeRoll >= catchChanceFish ; Vanilla fish roll  (repeat chunk, using a function causes issues)
 		int biomeType = currentFishingSupplies.BiomeType
@@ -804,11 +841,12 @@ ccBGSSSE001_CatchData function GetNextCatchData()
 		endif
 
 		catchData = GetNextFishCatchData(catchDataList)
+		FishCaught = TRUE
 
 	elseif catchTypeRoll < catchChanceFish ; Vanilla junk roll
 
 		catchData = GetNextJunkCatchData(GetJunkCatchDataList())
-
+		FishCaught = FALSE
 	endif
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1053,87 +1091,58 @@ ccBGSSSE001_CatchData function GetNextJunkCatchData(FormList akCatchDataList)
 	return catchData
 endFunction
 
-function SetupCameraAndPosition(bool abContinueFishing = false)
-	; Check the camera state and store it for later use.
+;; LLFP: Taken from SFO for compat with it
+function SetupCameraAndPosition(Bool abContinueFishing)
+
 	startedInFirstPerson = PlayerRef.GetAnimationVariableBool("IsFirstPerson")
-	startedWithTorch = PlayerRef.GetEquippedItemType(0) == 11 ; 0 == Left hand, 11 == Torch
-
-	while IsPlayerDrawingWeapon()
-		; Wait for this animation to end
-		Utility.Wait(0.25)
+	startedWithTorch = PlayerRef.GetEquippedItemType(0) == 11
+	while self.IsPlayerDrawingWeapon()
+		utility.Wait(0.250000)
 	endWhile
-
-	bool hasWeaponDrawn = PlayerRef.IsWeaponDrawn()
-
-	; Player must be able to press the "Reel Line" activator, but nothing else.
-	Game.DisablePlayerControls(	abMovement = true, \
-								abFighting = true, \
-								abCamSwitch = true, \
-  								abLooking = true, \
-  								abSneaking = true, \
-  								abMenu = true, \
-  								abActivate = false, \
-  								abJournalTabs = true)
-
-	bool resetViewAndPlayerState = true
+	Bool hasWeaponDrawn = PlayerRef.IsWeaponDrawn()
+	game.DisablePlayerControls(true, true, false, false, true, true, false, true, 0)
+	Bool resetViewAndPlayerState = true
 	if abContinueFishing
-		ObjectReference fishingMarker = currentFishingSupplies.GetFishingMarker()
-		; Check to see if the player has moved in any way, pulled out a weapon, etc
-		; If not, don't fade to black and move the player.
-		if PlayerRef.GetAngleX() == 0.0 && \
-		   PlayerRef.GetAngleZ() == fishingMarker.GetAngleZ() && \
-		   Math.Floor(PlayerRef.GetPositionX()) == Math.Floor(fishingMarker.GetPositionX()) && \
-		   Math.Floor(PlayerRef.GetPositionY()) == Math.Floor(fishingMarker.GetPositionY()) && \
-		   startedInFirstPerson && \
-		   !hasWeaponDrawn
+		objectreference fishingmarker = currentFishingSupplies.GetFishingMarker()
+		if PlayerRef.GetAngleX() == 0.000000 && PlayerRef.GetAngleZ() == fishingmarker.GetAngleZ() && math.Floor(PlayerRef.GetPositionX()) == math.Floor(fishingmarker.GetPositionX()) && math.Floor(PlayerRef.GetPositionY()) == math.Floor(fishingmarker.GetPositionY()) && startedInFirstPerson as Bool && !hasWeaponDrawn
+			resetViewAndPlayerState = false
+		endIf
+	endIf
 
-		   resetViewAndPlayerState = false
-		endif
-	endif
-	
+
 	if resetViewAndPlayerState
-		ccBGSSSE001_FadeToBlackImod.ApplyCrossFade(DURATION_FADETOBLACKCROSSFADE)
-		Wait(DURATION_FADETOBLACKCROSSFADE - 0.1)
-		ccBGSSSE001_FadeToBlackImod.PopTo(ccBGSSSE001_FadeToBlackHoldImod)
-
-		; === Black out period starts
+		ccBGSSSE001_FadeToBlackImod.ApplyCrossFade(self.DURATION_FADETOBLACKCROSSFADE)
+		utility.Wait(self.DURATION_FADETOBLACKCROSSFADE - 0.100000)
+		ccBGSSSE001_FadeToBlackImod.PopTo(ccBGSSSE001_FadeToBlackHoldImod, 1.00000)
 		ccBGSSSE001_FishingFollowerIdleQuest.Start()
-
 		if hasWeaponDrawn
-			Wait(DURATION_SHEATHEWEAPON)
-		endif
-
+			utility.Wait(self.DURATION_SHEATHEWEAPON)
+		endIf
 		if startedWithTorch
-			PlayerRef.UnequipItem(Torch01, abSilent = true)
-		endif
+			PlayerRef.UnequipItem(Torch01 as form, false, true)
+		endIf
+;		if !startedInFirstPerson
+;			game.ForceFirstPerson()
+;		endIf
+		self.MovePlayerToFishingMarker()
+	endIf
+	utility.Wait(self.DURATION_RODLOADTIME)
+;	fishingRodActivator.TranslateToRef(currentFishingSupplies.GetFishingMarker(), 2000.00, 2000.00)
+fishingmarker = currentFishingSupplies.GetFishingMarker()
+fishingRodActivator.TranslateTo(fishingmarker.GetPositionX(), fishingmarker.GetPositionY(), fishingmarker.GetPositionZ(), fishingmarker.GetAngleX(), fishingmarker.GetAngleY(), fishingmarker.GetAngleZ(), 2000.00, 2000.00)
 
-		if !startedInFirstPerson
-			Game.ForceFirstPerson()
-		endif
-
-		MovePlayerToFishingMarker()
-	endif
-
-	; Give the fishing rod activator time to load the behavior graph and then move into position.
-	Wait(DURATION_RODLOADTIME)
-	fishingRodActivator.TranslateToRef(currentFishingSupplies.GetFishingMarker(), 2000.0, 2000.0)
-	
-	MoveDetectRef.IgnoreTriggerEvents()
-	ObjectReference fishingMarker = currentFishingSupplies.GetFishingMarker()
-
-	; Move the "Reel Line" activator, navigation blocker, and the movement detector around the player.
-	ccBGSSSE001_NavBlockerRef.MoveTo(fishingMarker, abMatchRotation = true)
-	ReelLineRef.MoveTo(fishingMarker, abMatchRotation = true)
-	MoveDetectRef.MoveTo(fishingMarker, abMatchRotation = true)
+	MoveDetectRef.IgnoreTriggerEvents(true)
+	objectreference fishingMarker = currentFishingSupplies.GetFishingMarker()
+	ccBGSSSE001_NavBlockerRef.MoveTo(fishingMarker, 0.000000, 0.000000, 0.000000, true)
+	ReelLineRef.MoveTo(fishingMarker, 0.000000, 0.000000, 0.000000, true)
+	MoveDetectRef.MoveTo(fishingMarker, 0.000000, 0.000000, 0.000000, true)
 	MoveDetectRef.IgnoreTriggerEvents(false)
-	
 	if resetViewAndPlayerState
-		; === Black out period ends
-		
-		ccBGSSSE001_FadeToBlackHoldImod.PopTo(ccBGSSSE001_FadeToBlackBackImod)
-		Wait(DURATION_FADETOBLACKCROSSFADE - 0.1)
-	endif
+		ccBGSSSE001_FadeToBlackHoldImod.PopTo(ccBGSSSE001_FadeToBlackBackImod, 1.00000)
+		utility.Wait(self.DURATION_FADETOBLACKCROSSFADE - 0.100000)
+	endIf
 endFunction
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function MovePlayerToFishingMarker()
 	PlayerRef.MoveTo(currentFishingSupplies.GetFishingMarker())
@@ -1262,56 +1271,70 @@ function CatchSuccess()
 	CleanUp()
 endFunction
 
-function ShowFanfareScreenAndAddCaughtItem(Form akCaughtObject)
-	; We don't want the player taking the fanfare object.
-	Game.DisablePlayerControls(	abMovement = true, \
-								abFighting = true, \
-								abCamSwitch = true, \
-  								abLooking = true, \
-  								abSneaking = true, \
-  								abMenu = true, \
-  								abActivate = true, \
-  								abJournalTabs = true)
+;; LLFP: Taken from SFO for compat with it (and fishing preview)
+function ShowFanfareScreenAndAddCaughtItem(form akCaughtObject)
+    Form FishingPreviewQuest = Game.GetFormFromFile(0x800, "FishingPreview.esp")
+    If FishingPreviewQuest
+        if currentSystemState != self.SYSTEMSTATE_CATCH_RESOLVE
+            game.EnablePlayerControls(true, true, true, true, true, true, true, true, 0)
+        endIf
+        (FishingPreviewQuest As FishingPreviewQuestScript).ShowPreview(akCaughtObject)
+        Return
+    EndIf
 
-	; Fish Catch - Show Fanfare Screen
-	ccBGSSSE001_CatchSuccessDOF.Apply()
+game.DisablePlayerControls(true, true, true, true, true, true, true, true, 0)
 
-	ObjectReference catchRef = currentFishingSupplies.PlaceAtMe(akCaughtObject)
+WasInThird = False
 
+If !PlayerRef.GetAnimationVariableBool("IsFirstPerson") && FishingCamera.GetValue() < 2
+		ccBGSSSE001_FadeToBlackImod.ApplyCrossFade(0.4)
+		utility.Wait(0.2)
+		ccBGSSSE001_FadeToBlackHoldImod.PopTo(ccBGSSSE001_FadeToBlackBackImod, 1.20000)
+	WasInThird = True
+	game.ForceFirstPerson()
+endif
+
+If FishingCamera.GetValue() < 2
+PlayerRef.SetAngle(fishingRodActivator.GetAngleX(), fishingRodActivator.GetAngleY(), fishingRodActivator.GetAngleZ())
+endif
+
+ccBGSSSE001_CatchSuccessDOF.Apply(1.0)
+	objectreference catchRef = currentFishingSupplies.PlaceAtMe(akCaughtObject, 1, false, false)
 	while !catchRef.Is3DLoaded()
-		Wait(0.2)
+		utility.Wait(0.200000)
 	endWhile
-
-	catchRef.SetMotionType(catchRef.Motion_Keyframed)
-	catchRef.Disable()
-
-	ObjectReference fishingMarker = currentFishingSupplies.GetFishingMarker()
-
-	; Spawn a light
-	ObjectReference fanfareLight = currentFishingSupplies.PlaceAtMe(ccBGSSSE001_CatchSuccessLight, abInitiallyDisabled = true)
+	catchRef.SetMotionType(catchRef.Motion_Keyframed, true)
+	catchRef.Disable(false)
+	objectreference fishingMarker = currentFishingSupplies.GetFishingMarker()
+	objectreference fanfareLight = currentFishingSupplies.PlaceAtMe(ccBGSSSE001_CatchSuccessLight as form, 1, false, true)
 	fanfareLight.MoveToNode(fishingMarker, "LightNode")
-
-	; Move the item to the success node
 	catchRef.MoveToNode(fishingMarker, nextCatchData.successNodeName)
-
-	; Display the fanfare and grant the item
 	fanfareLight.EnableNoWait(false)
 	catchRef.EnableNoWait(true)
-	PlayerRef.AddItem(catchRef.GetBaseObject())
-
-	Wait(DURATION_SUCCESSVIEW)
-
-	fanfareLight.DisableNoWait()
-	catchRef.DisableNoWait()
+	PlayerRef.AddItem(catchRef.GetBaseObject(), 1, false)
+	utility.Wait(self.DURATION_SUCCESSVIEW)
+	fanfareLight.DisableNoWait(false)
+	catchRef.DisableNoWait(false)
 	fanfareLight.Delete()
 	catchRef.Delete()
 	ccBGSSSE001_CatchSuccessDOF.Remove()
+	if currentSystemState != self.SYSTEMSTATE_CATCH_RESOLVE
+		game.EnablePlayerControls(true, true, true, true, true, true, true, true, 0)
+	endIf
+	;;;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; Debug.Notification("Updating fish catch Success...")
+	
+	; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
+	if(FishCaught == TRUE) ; advance skill only when catching fish
 
-	if currentSystemState != SYSTEMSTATE_CATCH_RESOLVE
-		; We shouldn't have been able to get here; as a failsafe, re-enable the player's controls.
-		Game.EnablePlayerControls()
+		float SkillAdvanceMagnitude = ((10+(10 * CustomSkills.GetSkillLevel("fishing")))/2) * _LLFP_SkillAdvanceMult.GetValue()
+		Utility.Wait(1)
+		CustomSkills.AdvanceSkill("fishing", SkillAdvanceMagnitude)
+
 	endif
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 endFunction
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function CatchFail(bool abFastExit, bool abReduceFishPopulation = false)
 	FishingDebug("Catch failure, exit!")
@@ -1367,46 +1390,48 @@ function PlayNibbleAnimation()
 endFunction
 
 function PlayHookedFishAnimation()
-	fishingRodActivator.SetAnimationVariableFloat(LINETUG_ANIMVAR, LINETUG_TYPE_TUGFISH)
-	fishingRodActivator.PlayAnimation(NIBBLE_ANIM)
 
-	; Give the animation a beat
-	Wait(DURATION_HOOKED_ANIM_WAIT)
-	;float diffTime = Utility.GetCurrentRealTime() - initTime ;; LLFP DEBUG
-	;Debug.Notification(diffTime) ;; LLFP DEBUG
-	int catchType = nextCatchData.getCatchType()
-
-	; Failsafe
-	fishingRodActivator.PlayAnimation(LINETUG_FISH_ANIM)
-
-	if catchType == ccBGSSSE001_CatchTypeSmallFish.GetValueInt()
-		Game.ShakeController(RUMBLE_STRENGTH_HOOKEDSMALLFISH_LEFT, RUMBLE_STRENGTH_HOOKEDSMALLFISH_RIGHT, RUMBLE_DURATION_HOOKED)
-		Wait(RUMBLE_DURATION_HOOKED - 0.1)
-		Game.ShakeController(RUMBLE_STRENGTH_HOOKED_LEFTCONSTANT, RUMBLE_STRENGTH_HOOKED_RIGHTCONSTANT, RUMBLE_DURATION_HOOKEDCONSTANT)
-
-	elseif catchType == ccBGSSSE001_CatchTypeLargeFish.GetValueInt()
-		Game.ShakeController(RUMBLE_STRENGTH_HOOKEDLARGEFISH_LEFT, RUMBLE_STRENGTH_HOOKEDLARGEFISH_RIGHT, RUMBLE_DURATION_HOOKED)
-		Wait(RUMBLE_DURATION_HOOKED - 0.1)
-		Game.ShakeController(RUMBLE_STRENGTH_HOOKEDLARGEFISH_LEFTCONSTANT, RUMBLE_STRENGTH_HOOKEDLARGEFISH_RIGHTCONSTANT, RUMBLE_DURATION_HOOKEDCONSTANT)
+	AnimatedFishing_Global.SetValue(2)
+	Utility.Wait(0.1)
+	
+	If PlayerRef.GetAnimationVariableBool("IsFirstPerson")
+	else
+	playerref.playidle(idlesearchingchest)
 	endif
-endFunction
+		fishingRodActivator.SetAnimationVariableFloat(self.LINETUG_ANIMVAR, self.LINETUG_TYPE_TUGFISH)
+		fishingRodActivator.PlayAnimation(self.NIBBLE_ANIM)
+		utility.Wait(self.DURATION_HOOKED_ANIM_WAIT)
+		Int catchType = nextCatchData.getCatchType()
+		fishingRodActivator.PlayAnimation(self.LINETUG_FISH_ANIM)
+		if catchType == ccBGSSSE001_CatchTypeSmallFish.GetValueInt()
+			game.ShakeController(self.RUMBLE_STRENGTH_HOOKEDSMALLFISH_LEFT, self.RUMBLE_STRENGTH_HOOKEDSMALLFISH_RIGHT, self.RUMBLE_DURATION_HOOKED)
+			utility.Wait(self.RUMBLE_DURATION_HOOKED - 0.100000)
+			game.ShakeController(self.RUMBLE_STRENGTH_HOOKED_LEFTCONSTANT, self.RUMBLE_STRENGTH_HOOKED_RIGHTCONSTANT, self.RUMBLE_DURATION_HOOKEDCONSTANT)
+		elseIf catchType == ccBGSSSE001_CatchTypeLargeFish.GetValueInt()
+			game.ShakeController(self.RUMBLE_STRENGTH_HOOKEDLARGEFISH_LEFT, self.RUMBLE_STRENGTH_HOOKEDLARGEFISH_RIGHT, self.RUMBLE_DURATION_HOOKED)
+			utility.Wait(self.RUMBLE_DURATION_HOOKED - 0.100000)
+			game.ShakeController(self.RUMBLE_STRENGTH_HOOKEDLARGEFISH_LEFTCONSTANT, self.RUMBLE_STRENGTH_HOOKEDLARGEFISH_RIGHTCONSTANT, self.RUMBLE_DURATION_HOOKEDCONSTANT)
+		endIf
+	endFunction
 
+;; LLFP: Taken from SFO for its compatibility
 function PlayHookedObjectAnimation()
-	fishingRodActivator.SetAnimationVariableFloat(LINETUG_ANIMVAR, LINETUG_TYPE_TUGOBJECT)
-	fishingRodActivator.PlayAnimation(NIBBLE_ANIM)
-
-	; Give the animation a beat
-	Wait(DURATION_HOOKED_ANIM_WAIT)
-	;float diffTime = Utility.GetCurrentRealTime() - initTime ;; LLFP DEBUG
-	;Debug.Notification(diffTime) ;; LLFP DEBUG
-
-	; Failsafe
-	fishingRodActivator.PlayAnimation(LINETUG_OBJECT_ANIM)
-
-	Game.ShakeController(RUMBLE_STRENGTH_HOOKEDOBJECT_LEFT, RUMBLE_STRENGTH_HOOKEDOBJECT_RIGHT, RUMBLE_DURATION_HOOKED)
-	Wait(RUMBLE_DURATION_HOOKED - 0.1)
-	Game.ShakeController(RUMBLE_STRENGTH_HOOKED_LEFTCONSTANT, RUMBLE_STRENGTH_HOOKED_RIGHTCONSTANT, RUMBLE_DURATION_HOOKEDCONSTANT)
-endFunction
+	AnimatedFishing_Global.SetValue(2)
+	Utility.Wait(0.1)
+	
+	If PlayerRef.GetAnimationVariableBool("IsFirstPerson")
+	;Debug.SendanimationEvent(PlayerRef, "Idleboundkneesenterinstant")
+	else
+	playerref.playidle(idlesearchingchest)
+	endif
+		fishingRodActivator.SetAnimationVariableFloat(self.LINETUG_ANIMVAR, self.LINETUG_TYPE_TUGOBJECT)
+		fishingRodActivator.PlayAnimation(self.NIBBLE_ANIM)
+		utility.Wait(self.DURATION_HOOKED_ANIM_WAIT)
+		fishingRodActivator.PlayAnimation(self.LINETUG_OBJECT_ANIM)
+		game.ShakeController(self.RUMBLE_STRENGTH_HOOKEDOBJECT_LEFT, self.RUMBLE_STRENGTH_HOOKEDOBJECT_RIGHT, self.RUMBLE_DURATION_HOOKED)
+		utility.Wait(self.RUMBLE_DURATION_HOOKED - 0.100000)
+		game.ShakeController(self.RUMBLE_STRENGTH_HOOKED_LEFTCONSTANT, self.RUMBLE_STRENGTH_HOOKED_RIGHTCONSTANT, self.RUMBLE_DURATION_HOOKEDCONSTANT)
+	endFunction
 
 function PlayCatchSuccessAnimation()
 	fishingRodActivator.PlayAnimation(CATCH_SUCCESS_ANIM)
@@ -1453,12 +1478,32 @@ endFunction
 ;/ 
  / System Tear-Down
  /;
-function RestoreCameraAndControls(bool abFastExit = false)
-	Game.EnablePlayerControls()
-	if !startedInFirstPerson
-		Game.ForceThirdPerson()
-	endif
-endFunction
+
+ ;; Taken from SFO for its compatibility
+ function RestoreCameraAndControls(Bool abFastExit)
+
+	PlayerRef.PlayIdle(idlestop_loose)
+	
+	game.EnablePlayerControls(true, true, true, true, true, true, true, true, 0)
+	
+	If FishingCamera.GetValue() == 1 && WasInThird == True
+		;game.ForceThirdPerson()
+		Input.TapKey(Input.GetMappedKey("Toggle POV"))
+		WasInThird = False
+	endIf
+	
+	AnimatedFishing_Global.SetValue(0)
+	Utility.wait(0.25)
+	PlayerRef.EquipItemEx(Weapon1, 1, false, false)
+	PlayerRef.EquipItemEx(Weapon2, 1, false, false)
+	ToggleDisableHeadtracking(False, False)
+	endFunction
+	
+	Bool function PlayerHasCaughtFishBefore()
+	
+		return ccBGSSSE001_HasCaughtFishAtLeastOnce.GetValueInt() != 0
+	endFunction
+	
 
 function ResetSystem()
 	ClearFishingSessionVariables()
@@ -1566,6 +1611,31 @@ bool function IsFishingAllowed(int aiFishingRodType)
 		return false
 	endif
 
+;; LLFP: Taken from SFO for its compat
+;;;;;;;;;;;;;;;; This is the bit for the bait stuff ;;;;;;;;;;;;;;;;;;;;
+
+	if BaitReq.GetValue() == 1
+		if PlayerRef.GetItemCount(AnimatedFishing_Bait) == 0
+			AnimatedFishing_NoBait.Show()
+			return false
+		else
+
+			int ListSize = AnimatedFishing_Bait.GetSize()
+			int CurrentItems = 0
+			int ItemsLeft = 1
+
+			while CurrentItems <= ListSize && ItemsLeft > 0
+					Form CurrentItem1 = AnimatedFishing_Bait.GetAt(CurrentItems)
+					int ItemCount = PlayerREF.GetItemCount(CurrentItem1)
+
+					PlayerREF.RemoveItem(CurrentItem1, ItemsLeft)
+					ItemsLeft -= ItemCount
+					CurrentItems += 1
+			endwhile
+		endif
+	endif
+;;;;;;;;;;;;;;;;;; This is where the bit for the bait stuff ends ;;;;;;;;;;;;;;;
+
 	return true
 endFunction
 
@@ -1577,9 +1647,13 @@ bool function IsItemCatchType(int aiCatchType)
 	return aiCatchType == ccBGSSSE001_CatchTypeObject.GetValueInt()
 endFunction
 
-bool function PlayerHasCaughtFishBefore()
-	return ccBGSSSE001_HasCaughtFishAtLeastOnce.GetValueInt() != 0
-endFunction
+;; LLFP: Taken Out for SFO compatibility
+
+; bool function PlayerHasCaughtFishBefore()
+; 	return ccBGSSSE001_HasCaughtFishAtLeastOnce.GetValueInt() != 0
+; endFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function TryToStartQuestAfterFirstCatch()
 	if !PlayerHasCaughtFishBefore()

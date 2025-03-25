@@ -56,7 +56,6 @@ FormList property myOverrideJunkCatchDataList auto
 Actor Property PlayerRef auto
 Perk Property _LLFP_MoreCatch_Perk01 auto
 LLFP_QuestScript Property QuestScript auto
-GlobalVariable Property _LLFP_SkillAdvanceMult auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -117,15 +116,6 @@ endFunction
 
 function UpdateFishCatchSuccess()
 	; EXTEND
-	;;;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	; Debug.Notification("Updating fish catch Success...")
-	
-	; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
-	float SkillAdvanceMagnitude = ((10+(10 * CustomSkills.GetSkillLevel("fishing")))/2) * _LLFP_SkillAdvanceMult.GetValue()
-	Utility.Wait(1)
-	CustomSkills.AdvanceSkill("fishing", SkillAdvanceMagnitude)
-
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
 		;; Random chance system

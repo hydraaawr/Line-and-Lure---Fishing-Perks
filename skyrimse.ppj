@@ -18,6 +18,9 @@
     <Imports>
         <Import>C:\Juegos\skyrim_modding\mods\Game Root\Data\Source\Scripts</Import>
         <Import>C:\Juegos\skyrim_modding\mods\mods\Custom Skills Framework\Source\Scripts</Import>
+        <Import>C:\Juegos\skyrim_modding\mods\dev_resources\source\TrueDirectionalMovement-source\scripts\source</Import>
+        <Import>C:\Juegos\skyrim_modding\mods\mods\Fishing Preview\Source\Scripts</Import>
+
     </Imports>
     <Folders>
         <!-- Relative path to folder containing .psc Papyrus source code files for this project -->

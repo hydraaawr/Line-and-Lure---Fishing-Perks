@@ -1247,26 +1247,6 @@ function CatchSuccess()
 		RadiantFishEventListener.CatchEvent(caughtObject, catchType)
 	endif
 
-	;; LLFP  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	; Double catch perk  for items
-	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
-		;; Random chance system
-		int MoreCatchRoll = RandomInt(aiMin = 1, aiMax = 2)
-		if(MoreCatchRoll == 1) ; 50% chance
-			Debug.Notification("Double Catch!")
-
-			PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
-
-		; Else
-		; 	Debug.Notification("Bad Roll for doublecatch")
-		endif
-		
-	; else
-	; 		Debug.Notification("Have Doublecatch perk, but not right item/no doublecatch active")
-	endif
-
-	QuestScript.LastCaughtObject = NONE ; Reset
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 	CleanUp()
 endFunction
@@ -1332,6 +1312,25 @@ ccBGSSSE001_CatchSuccessDOF.Apply(1.0)
 		CustomSkills.AdvanceSkill("fishing", SkillAdvanceMagnitude)
 
 	endif
+	; DoubleCatch Perk
+	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
+		;; Random chance system
+		int MoreCatchRoll = RandomInt(aiMin = 1, aiMax = 2)
+		if(MoreCatchRoll == 1) ; 50% chance
+	
+			Debug.Notification("Double Catch!")
+
+			PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
+
+		; else
+		; 	Debug.Notification("Bad Roll for doublecatch")
+		endif
+
+	; else
+	; 		Debug.Notification("Have Doublecatch perk, but not right fish/no doublecatch active")
+	endif
+
+	QuestScript.LastCaughtObject = NONE ; Reset
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 endFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

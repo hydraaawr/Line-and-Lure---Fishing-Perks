@@ -614,6 +614,18 @@ function StartPlayerInteraction(ccBGSSSE001_FishingActScript akFishingSupplies, 
 	currentFishingRodType = GetCurrentFishingRodType()
 	FishingDebug("Current fishing rod type: " + currentFishingRodType)
 
+	;; LLFP: Taken from Fancy Fishing for SFO compat
+	; SFO settings
+    ; idea is to avoid touching this quest record in the Fancy Fishing + SFO patch itself
+	AnimatedFishing_Global = Game.GetFormFromFile(0x800, "Simple Fishing Overhaul.esp") as GlobalVariable
+    if AnimatedFishing_Global
+        RodHeight = Game.GetFormFromFile(0x801, "Simple Fishing Overhaul.esp") as GlobalVariable
+        BaitReq = Game.GetFormFromFile(0x819, "Simple Fishing Overhaul.esp") as GlobalVariable
+        FishingCamera = Game.GetFormFromFile(0x86F, "Simple Fishing Overhaul.esp") as GlobalVariable
+        AnimatedFishing_NoBait = Game.GetFormFromFile(0x818, "Simple Fishing Overhaul.esp") as Message
+        AnimatedFishing_Bait = Game.GetFormFromFile(0x817, "Simple Fishing Overhaul.esp") as FormList
+	endif
+
 	; Is the player jumping, in combat, etc?
 	if !IsFishingAllowed(currentFishingRodType)
 		currentSystemState = SYSTEMSTATE_IDLE
@@ -1359,11 +1371,31 @@ function PlayResetAnimation()
 	fishingRodActivator.PlayAnimation(RESET_ANIM)
 endFunction
 
+;; LLFP: Taken from SFO for its compatibility
 function PlayCastAnimation()
-	fishingRodActivator.PlayAnimation(CAST_ANIM)
-	Game.ShakeController(RUMBLE_STRENGTH_CAST_LEFT, RUMBLE_STRENGTH_CAST_RIGHT, RUMBLE_DURATION_CAST)
+	Weapon1 = PlayerRef.GetEquippedWeapon()
+	Weapon2 = PlayerRef.GetEquippedWeapon(True)
+	PlayerRef.UnequipItem(Weapon1, false, true)
+	PlayerRef.UnequipItem(Weapon2, false, true)
+	
+	AnimatedFishing_Global.SetValue(1)
+			if !startedInFirstPerson
+	Utility.Wait(0.1)
+	PlayerRef.PlayIdle(IdleCoweringLoose)
+				Utility.Wait(0.7)
+	else
+	PlayerRef.PlayIdle(IdleCoweringLoose)
+	endif
+	utility.wait(0.1)
+		fishingRodActivator.PlayAnimation(self.CAST_ANIM)
+		game.ShakeController(self.RUMBLE_STRENGTH_CAST_LEFT, self.RUMBLE_STRENGTH_CAST_RIGHT, self.RUMBLE_DURATION_CAST)
+	
+	Utility.wait(0.2)
+	float height = PlayerRef.GetPositionZ() 
+	fishingRodActivator.TranslateTo(fishingRodActivator.GetPositionX(), fishingRodActivator.GetPositionY(), (height - RodHeight.GetValue()), fishingRodActivator.GetAngleX(), fishingRodActivator.GetAngleY(), fishingRodActivator.GetAngleZ(), 2000.00, 2000.00)
+	
 endFunction
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 function PlayVisualPopulationAnimation()
 	int currentPopulation = currentFishingSupplies.GetCurrentFishPopulation()
 	if currentPopulation >= POPULATION_COUNT_FULL
@@ -1431,6 +1463,7 @@ function PlayHookedObjectAnimation()
 		utility.Wait(self.RUMBLE_DURATION_HOOKED - 0.100000)
 		game.ShakeController(self.RUMBLE_STRENGTH_HOOKED_LEFTCONSTANT, self.RUMBLE_STRENGTH_HOOKED_RIGHTCONSTANT, self.RUMBLE_DURATION_HOOKEDCONSTANT)
 	endFunction
+
 
 function PlayCatchSuccessAnimation()
 	fishingRodActivator.PlayAnimation(CATCH_SUCCESS_ANIM)

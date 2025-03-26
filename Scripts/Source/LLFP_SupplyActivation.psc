@@ -17,7 +17,7 @@ Event OnActivate(ObjectReference akActionRef)
 
         if(PlayerRef.HasPerk(_LLFP_DetectBiome_Perk01))
 
-            Utility.Wait(2)
+            Utility.Wait(5)
 
             if(self.HasKeyword(_LLFP_IsTemperateStream))
 

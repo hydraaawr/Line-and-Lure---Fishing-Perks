@@ -1238,7 +1238,7 @@ function CatchSuccess()
 	if nextCatchData.isOneTimeCatch
 		ccBGSSSE001_OneTimeCaughtList.AddForm(nextCatchData)
 	endif
-
+	ShowFanfareScreenAndAddCaughtItem(caughtObject) ;; LLFP: taken from SFO for its compatibility
 	; Fish-specific actions
 	if IsFishCatchType(catchType)
 		TryToStartQuestAfterFirstCatch()
@@ -1249,7 +1249,7 @@ function CatchSuccess()
 		currentFishingSupplies.ReduceFishPopulation(1)
 	endif
 
-	ShowFanfareScreenAndAddCaughtItem(caughtObject)
+	;ShowFanfareScreenAndAddCaughtItem(caughtObject) ;; LLFP: taken from SFO for its compatibility
 	
 	if isQuestItemCatch && currentFishingSupplies.myQuestStageToSet != -1
 		currentFishingSupplies.myQuest.SetStage(currentFishingSupplies.myQuestStageToSet)

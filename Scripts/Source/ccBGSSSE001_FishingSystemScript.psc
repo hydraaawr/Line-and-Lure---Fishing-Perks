@@ -680,7 +680,7 @@ function Fish(bool abContinueFishing)
 	fishingRodActivator = PlaceFishingRodActivator(currentFishingRodType)
 	FishingDebug("Placing fishing rod activator " + fishingRodActivator)
 	SetupCameraAndPosition(abContinueFishing)
-	
+
 	; Set the fish population to show and show the reel line prompt.
 	SetVisualPopulation()
 
@@ -1112,7 +1112,14 @@ function SetupCameraAndPosition(Bool abContinueFishing)
 		utility.Wait(0.250000)
 	endWhile
 	Bool hasWeaponDrawn = PlayerRef.IsWeaponDrawn()
-	game.DisablePlayerControls(true, true, false, false, true, true, false, true, 0)
+	if AnimatedFishing_Global == NONE
+		;Debug.Notification("Forcing first person")
+		game.DisablePlayerControls(true, true, true, false, true, true, false, true, 0)
+	Else
+		;Debug.Notification("Cant force 1st person")
+		game.DisablePlayerControls(true, true, false, false, true, true, false, true, 0)
+	endif
+
 	Bool resetViewAndPlayerState = true
 	if abContinueFishing
 		objectreference fishingmarker = currentFishingSupplies.GetFishingMarker()
@@ -1371,29 +1378,36 @@ function PlayResetAnimation()
 	fishingRodActivator.PlayAnimation(RESET_ANIM)
 endFunction
 
-;; LLFP: Taken from SFO for its compatibility
+;; LLFP: Partially taken from Fancy Fishing for SFO compatibility
 function PlayCastAnimation()
-	Weapon1 = PlayerRef.GetEquippedWeapon()
-	Weapon2 = PlayerRef.GetEquippedWeapon(True)
-	PlayerRef.UnequipItem(Weapon1, false, true)
-	PlayerRef.UnequipItem(Weapon2, false, true)
-	
-	AnimatedFishing_Global.SetValue(1)
-			if !startedInFirstPerson
-	Utility.Wait(0.1)
-	PlayerRef.PlayIdle(IdleCoweringLoose)
-				Utility.Wait(0.7)
-	else
-	PlayerRef.PlayIdle(IdleCoweringLoose)
-	endif
-	utility.wait(0.1)
-		fishingRodActivator.PlayAnimation(self.CAST_ANIM)
-		game.ShakeController(self.RUMBLE_STRENGTH_CAST_LEFT, self.RUMBLE_STRENGTH_CAST_RIGHT, self.RUMBLE_DURATION_CAST)
-	
-	Utility.wait(0.2)
-	float height = PlayerRef.GetPositionZ() 
-	fishingRodActivator.TranslateTo(fishingRodActivator.GetPositionX(), fishingRodActivator.GetPositionY(), (height - RodHeight.GetValue()), fishingRodActivator.GetAngleX(), fishingRodActivator.GetAngleY(), fishingRodActivator.GetAngleZ(), 2000.00, 2000.00)
-	
+    if AnimatedFishing_Global
+        Weapon1 = PlayerRef.GetEquippedWeapon()
+        Weapon2 = PlayerRef.GetEquippedWeapon(True)
+
+
+        PlayerRef.UnequipItem(Weapon1, false, true)
+        PlayerRef.UnequipItem(Weapon2, false, true)
+
+
+        AnimatedFishing_Global.SetValue(1)
+        if !startedInFirstPerson
+            Utility.Wait(0.1)
+            PlayerRef.PlayIdle(IdleCoweringLoose)
+            Utility.Wait(0.7)
+        else
+            PlayerRef.PlayIdle(IdleCoweringLoose)
+        endif
+        utility.wait(0.1)
+    endif
+
+    fishingRodActivator.PlayAnimation(CAST_ANIM)
+    game.ShakeController(RUMBLE_STRENGTH_CAST_LEFT, RUMBLE_STRENGTH_CAST_RIGHT, RUMBLE_DURATION_CAST)
+
+    if AnimatedFishing_Global
+        Utility.wait(0.2)
+        float height = PlayerRef.GetPositionZ()
+        fishingRodActivator.TranslateTo(fishingRodActivator.GetPositionX(), fishingRodActivator.GetPositionY(), (height - RodHeight.GetValue()), fishingRodActivator.GetAngleX(), fishingRodActivator.GetAngleY(), fishingRodActivator.GetAngleZ(), 2000.00, 2000.00)
+    endif
 endFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 function PlayVisualPopulationAnimation()

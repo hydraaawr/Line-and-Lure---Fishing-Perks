@@ -1660,7 +1660,7 @@ bool function IsFishingAllowed(int aiFishingRodType)
 ;; LLFP: Taken from SFO for its compat
 ;;;;;;;;;;;;;;;; This is the bit for the bait stuff ;;;;;;;;;;;;;;;;;;;;
 
-	if BaitReq.GetValue() == 1
+	if BaitReq.GetValue() == 1 && !PlayerRef.HasMagicEffect(_LLFP_JunkSpellEffect) ; With Junkspell theres no need for bait even if its activated
 		if PlayerRef.GetItemCount(AnimatedFishing_Bait) == 0
 			AnimatedFishing_NoBait.Show()
 			return false

@@ -1270,14 +1270,30 @@ function CatchSuccess()
 	CleanUp()
 endFunction
 
-;; LLFP: Taken from SFO for compat with it (and fishing preview)
+;; LLFP: Taken from SFO for compat with tweaks from Immersive Fishing for fishing preview compat. Also added a few tweaks of my (LLFP) own, like
+;; leveled item management
 function ShowFanfareScreenAndAddCaughtItem(form akCaughtObject)
     Form FishingPreviewQuest = Game.GetFormFromFile(0x800, "FishingPreview.esp")
     If FishingPreviewQuest
         if currentSystemState != self.SYSTEMSTATE_CATCH_RESOLVE
             game.EnablePlayerControls(true, true, true, true, true, true, true, true, 0)
         endIf
-        (FishingPreviewQuest As FishingPreviewQuestScript).ShowPreview(akCaughtObject)
+
+		(FishingPreviewQuest As FishingPreviewQuestScript).ShowPreview(akCaughtObject)
+
+		
+		; Compatibility chunk with fishing preview. levelling and doublecatch chunks turned into functions and put also here. Credits to GiraPomba
+
+		;Debug.Notification("akCaughtObject: " + akCaughtObject) ; DEBUG LLFP
+		;Debug.Notification("n: " + (FishingPreviewQuest As FishingPreviewQuestScript).FishingPreviewActorRef.GetItemCount(akCaughtObject)) ; DEBUG LLFP
+
+		LevelUpFishingSkill()
+		
+		If (FishingPreviewQuest As FishingPreviewQuestScript).FishingPreviewActorRef.GetContainerForms().Length == 0 ; Player took the item. LLFP: Modified because GetItemCount doesn't work with lvled items
+			;Debug.Notification("Evaluating double catch...") ;; DEBUG LLFP
+			
+			DoubleCatch()
+		EndIf
         Return
     EndIf
 
@@ -1322,36 +1338,48 @@ ccBGSSSE001_CatchSuccessDOF.Apply(1.0)
 	endIf
 	;;;; LLFP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; Debug.Notification("Updating fish catch Success...")
+
+
+	LevelUpFishingSkill()
+
+
 	
-	; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
-	if(FishCaught == TRUE) ; advance skill only when catching fish
+	DoubleCatch()
 
-		float SkillAdvanceMagnitude = ((10+(10 * CustomSkills.GetSkillLevel("fishing")))/2) * _LLFP_SkillAdvanceMult.GetValue()
-		Utility.Wait(1)
-		CustomSkills.AdvanceSkill("fishing", SkillAdvanceMagnitude)
-
-	endif
-	; DoubleCatch Perk
-	if PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
-		;; Random chance system
-		int MoreCatchRoll = RandomInt(aiMin = 1, aiMax = 2)
-		if(MoreCatchRoll == 1) ; 50% chance
 	
-			Debug.Notification("Double Catch!")
-
-			PlayerRef.additem(QuestScript.LastCaughtObject) ; add extra catch
-
-		; else
-		; 	Debug.Notification("Bad Roll for doublecatch")
-		endif
-
-	; else
-	; 		Debug.Notification("Have Doublecatch perk, but not right fish/no doublecatch active")
-	endif
-
-	QuestScript.LastCaughtObject = NONE ; Reset
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 endFunction
+
+
+;;;; LLFP 2.2.0 - Turned chunks into functions for repeated use. Credits to GiraPomba;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Skill up system ;;;;;;;;;;;;;;;;;;;;;;
+Function LevelUpFishingSkill()
+
+		If FishCaught ; advance skill only when catching fish
+			float SkillAdvanceMagnitude = ((10+(10 * CustomSkills.GetSkillLevel("fishing")))/2) * _LLFP_SkillAdvanceMult.GetValue()
+			CustomSkills.AdvanceSkill("fishing", SkillAdvanceMagnitude)
+		EndIf
+
+EndFunction
+
+; DoubleCatch Perk
+Function DoubleCatch()
+		
+		If PlayerRef.hasPerk(_LLFP_MoreCatch_Perk01) && QuestScript.LastCaughtObject !=  NONE ;; second condition checks if its the right catch to apply the effect
+			;; Random chance system
+			int MoreCatchRoll = RandomInt(aiMin = 1, aiMax = 2)
+			
+			If(MoreCatchRoll == 1) ; 50% chance
+				Debug.Notification("Double Catch!")
+				;Debug.Notification(QuestScript.LastCaughtObject);; DEBUG
+				PlayerRef.AddItem(QuestScript.LastCaughtObject, 1)
+			EndIf
+
+
+		QuestScript.LastCaughtObject = NONE ; Reset
+	EndIf
+EndFunction
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function CatchFail(bool abFastExit, bool abReduceFishPopulation = false)

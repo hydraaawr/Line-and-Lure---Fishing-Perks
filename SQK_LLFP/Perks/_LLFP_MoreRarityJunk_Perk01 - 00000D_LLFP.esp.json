@@ -1,0 +1,34 @@
+{
+  "FormKey": "00000D:LLFP.esp",
+  "EditorID": "_LLFP_MoreRarityJunk_Perk01",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Salvager"
+  },
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": "Increases your chances of catching uncommon junk by 2% and rare junk by 1%."
+  },
+  "Conditions": [
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Data": {
+        "MutagenObjectType": "HasPerkConditionData",
+        "Perk": "000020:LLFP.esp"
+      },
+      "ComparisonValue": 1.0
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "CompareOperator": "GreaterThanOrEqualTo",
+      "Data": {
+        "MutagenObjectType": "GetGlobalValueConditionData",
+        "Global": "000D63:LLFP.esp"
+      },
+      "ComparisonValue": 40.0
+    }
+  ],
+  "NumRanks": 1,
+  "Playable": true,
+  "NextPerk": "000024:LLFP.esp"
+}

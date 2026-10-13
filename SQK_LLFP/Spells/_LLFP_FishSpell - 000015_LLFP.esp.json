@@ -1,0 +1,32 @@
+{
+  "FormKey": "000015:LLFP.esp",
+  "EditorID": "_LLFP_FishSpell",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Shiny Baubles"
+  },
+  "MenuDisplayObject": "0435A5:Skyrim.esm",
+  "EquipmentType": "025BEE:Skyrim.esm",
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": "Catch only fish for 2 minutes."
+  },
+  "Flags": [
+    "IgnoreResistance",
+    "NoAbsorbOrReflect"
+  ],
+  "Type": "Power",
+  "CastType": "FireAndForget",
+  "Effects": [
+    {
+      "BaseEffect": "000019:LLFP.esp",
+      "Data": {
+        "Duration": 120
+      }
+    },
+    {
+      "BaseEffect": "00001C:LLFP.esp",
+      "Data": {}
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "FormKey": "000009:LLFP.esp",
+  "EditorID": "_LLFP_DetectBiome_Perk01",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Tideborn Sense"
+  },
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": "Allows you to recognize the current biome you are fishing in."
+  },
+  "NumRanks": 1,
+  "Playable": true
+}

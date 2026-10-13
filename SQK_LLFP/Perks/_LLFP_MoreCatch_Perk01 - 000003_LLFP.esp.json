@@ -1,0 +1,44 @@
+{
+  "FormKey": "000003:LLFP.esp",
+  "EditorID": "_LLFP_MoreCatch_Perk01",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Double Catch"
+  },
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": "Gives you a 50% chance to reel in two common or uncommon catches at once."
+  },
+  "Conditions": [
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "CompareOperator": "GreaterThanOrEqualTo",
+      "Data": {
+        "MutagenObjectType": "GetGlobalValueConditionData",
+        "Global": "000D63:LLFP.esp"
+      },
+      "ComparisonValue": 90.0
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Flags": [
+        "OR"
+      ],
+      "Data": {
+        "MutagenObjectType": "HasPerkConditionData",
+        "Perk": "000016:LLFP.esp"
+      },
+      "ComparisonValue": 1.0
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Data": {
+        "MutagenObjectType": "HasPerkConditionData",
+        "Perk": "000010:LLFP.esp"
+      },
+      "ComparisonValue": 1.0
+    }
+  ],
+  "NumRanks": 1,
+  "Playable": true
+}

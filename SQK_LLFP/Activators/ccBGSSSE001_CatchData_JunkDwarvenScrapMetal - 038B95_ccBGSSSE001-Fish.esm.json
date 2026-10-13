@@ -1,0 +1,50 @@
+{
+  "FormKey": "038B95:ccBGSSSE001-Fish.esm",
+  "EditorID": "ccBGSSSE001_CatchData_JunkDwarvenScrapMetal",
+  "VirtualMachineAdapter": {
+    "Scripts": [
+      {
+        "Name": "ccBGSSSE001_ItemCatchData",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeLargeFish",
+            "Object": "000892:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeObject",
+            "Object": "000893:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeQuestEvent",
+            "Object": "000818:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeSmallFish",
+            "Object": "000894:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "Item",
+            "Object": "038BAE:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "QuestScript",
+            "Object": "00000A:LLFP.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptStringProperty",
+            "Name": "successNodeName",
+            "Data": "SuccessNodeItemJunkSmall03"
+          }
+        ]
+      }
+    ]
+  },
+  "MarkerColor": "#00CC4C33",
+  "Flags": []
+}

@@ -1,0 +1,25 @@
+{
+  "FormKey": "000017:LLFP.esp",
+  "EditorID": "_LLFP_FishSpellAddAb",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Fish Spell Adder Ability"
+  },
+  "EquipmentType": "013F44:Skyrim.esm",
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": ""
+  },
+  "Flags": [
+    "IgnoreResistance",
+    "NoAbsorbOrReflect"
+  ],
+  "Type": "Ability",
+  "CastType": "FireAndForget",
+  "Effects": [
+    {
+      "BaseEffect": "000018:LLFP.esp",
+      "Data": {}
+    }
+  ]
+}

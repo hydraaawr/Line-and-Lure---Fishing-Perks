@@ -1,0 +1,33 @@
+{
+  "FormKey": "000025:LLFP.esp",
+  "EditorID": "_LLFP_MoreRarityJunk_Perk03",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "More Rarity Junk Perk 3"
+  },
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": "Increases your chances of catching uncommon junk by 6% and rare junk by 3%."
+  },
+  "Conditions": [
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Data": {
+        "MutagenObjectType": "HasPerkConditionData",
+        "Perk": "000024:LLFP.esp"
+      },
+      "ComparisonValue": 1.0
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "CompareOperator": "GreaterThanOrEqualTo",
+      "Data": {
+        "MutagenObjectType": "GetGlobalValueConditionData",
+        "Global": "000D63:LLFP.esp"
+      },
+      "ComparisonValue": 70.0
+    }
+  ],
+  "NumRanks": 1,
+  "Playable": true
+}

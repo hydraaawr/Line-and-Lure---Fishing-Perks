@@ -1,0 +1,28 @@
+{
+  "FormKey": "000011:LLFP.esp",
+  "EditorID": "_LLFP_JunkSpellEffect",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Drag Hooks"
+  },
+  "MenuDisplayObject": "0435A5:Skyrim.esm",
+  "Keywords": [
+    "00001A:LLFP.esp"
+  ],
+  "Flags": [
+    "NoHitEvent",
+    "NoHitEffect"
+  ],
+  "Archetype": {
+    "MutagenObjectType": "MagicEffectArchetype",
+    "Type": "Script"
+  },
+  "CastType": "FireAndForget",
+  "DualCastScale": 1.0,
+  "CastingSoundLevel": "Normal",
+  "Sounds": [],
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": ""
+  }
+}

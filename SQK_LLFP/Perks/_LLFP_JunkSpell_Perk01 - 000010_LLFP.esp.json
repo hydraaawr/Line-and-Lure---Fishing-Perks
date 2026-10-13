@@ -1,0 +1,39 @@
+{
+  "FormKey": "000010:LLFP.esp",
+  "EditorID": "_LLFP_JunkSpell_Perk01",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Drag Hooks"
+  },
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": "Grants you the power to catch only junk for 2 minutes per day."
+  },
+  "Conditions": [
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Data": {
+        "MutagenObjectType": "HasPerkConditionData",
+        "Perk": "000025:LLFP.esp"
+      },
+      "ComparisonValue": 1.0
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "CompareOperator": "GreaterThanOrEqualTo",
+      "Data": {
+        "MutagenObjectType": "GetGlobalValueConditionData",
+        "Global": "000D63:LLFP.esp"
+      },
+      "ComparisonValue": 75.0
+    }
+  ],
+  "NumRanks": 1,
+  "Playable": true,
+  "Effects": [
+    {
+      "MutagenObjectType": "PerkAbilityEffect",
+      "Ability": "000014:LLFP.esp"
+    }
+  ]
+}

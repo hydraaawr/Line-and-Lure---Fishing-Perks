@@ -1,0 +1,28 @@
+{
+  "FormKey": "000019:LLFP.esp",
+  "EditorID": "_LLFP_FishSpellEffect",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Shiny Baubles"
+  },
+  "MenuDisplayObject": "0435A5:Skyrim.esm",
+  "Keywords": [
+    "00001B:LLFP.esp"
+  ],
+  "Flags": [
+    "NoHitEvent",
+    "NoHitEffect"
+  ],
+  "Archetype": {
+    "MutagenObjectType": "MagicEffectArchetype",
+    "Type": "Script"
+  },
+  "CastType": "FireAndForget",
+  "DualCastScale": 1.0,
+  "CastingSoundLevel": "Normal",
+  "Sounds": [],
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": ""
+  }
+}

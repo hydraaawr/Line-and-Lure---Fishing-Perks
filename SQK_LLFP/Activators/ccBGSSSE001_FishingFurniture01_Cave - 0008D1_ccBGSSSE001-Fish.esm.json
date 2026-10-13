@@ -1,0 +1,100 @@
+{
+  "FormKey": "0008D1:ccBGSSSE001-Fish.esm",
+  "EditorID": "ccBGSSSE001_FishingFurniture01_Cave",
+  "Version2": 1,
+  "VirtualMachineAdapter": {
+    "Scripts": [
+      {
+        "Name": "ccBGSSSE001_FishingActScript",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "_LLFP_MoreCatch_Perk01",
+            "Object": "000003:LLFP.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "_LLFP_SkillAdvanceMult",
+            "Object": "000037:LLFP.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptIntProperty",
+            "Name": "BiomeType",
+            "Data": 3
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "FishingSystem",
+            "Object": "033A57:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "PlayerRef",
+            "Object": "000014:Skyrim.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "QuestScript",
+            "Object": "00000A:LLFP.esp"
+          }
+        ]
+      },
+      {
+        "Name": "LLFP_SupplyActivation",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "_LLFP_DetectBiome_Perk01",
+            "Object": "000009:LLFP.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "_LLFP_IsArctic",
+            "Object": "000034:LLFP.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "_LLFP_IsCave",
+            "Object": "000035:LLFP.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "_LLFP_IsTemperateLake",
+            "Object": "000036:LLFP.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "_LLFP_IsTemperateStream",
+            "Object": "000008:LLFP.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "PlayerRef",
+            "Object": "000014:Skyrim.esm"
+          }
+        ]
+      }
+    ]
+  },
+  "ObjectBounds": {
+    "First": "-56, -65, 0",
+    "Second": "27, 27, 31"
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Fishing Supplies"
+  },
+  "Model": {
+    "File": "CreationClub\\BGSSSE001\\Clutter\\FishingGear_Cluster01.nif",
+    "Data": "0x020000000000000000000000"
+  },
+  "Keywords": [
+    "000035:LLFP.esp"
+  ],
+  "MarkerColor": "#00CC4C33",
+  "ActivateTextOverride": {
+    "TargetLanguage": "English",
+    "Value": "Use"
+  },
+  "Flags": []
+}

@@ -1,0 +1,30 @@
+{
+  "FormKey": "000033:LLFP.esp",
+  "EditorID": "_LLFP_SkillMenuPrompt",
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": "Would you like to explore the depths of your fishing knowledge?"
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Fishing Skill"
+  },
+  "INAM": "0x00000000",
+  "Flags": [
+    "MessageBox"
+  ],
+  "MenuButtons": [
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Yes"
+      }
+    },
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "No"
+      }
+    }
+  ]
+}

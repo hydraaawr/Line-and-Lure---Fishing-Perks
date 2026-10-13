@@ -1,0 +1,55 @@
+{
+  "FormKey": "000869:ccBGSSSE001-Fish.esm",
+  "EditorID": "ccBGSSSE001_CatchData_AtlanticCod",
+  "VirtualMachineAdapter": {
+    "Scripts": [
+      {
+        "Name": "ccBGSSSE001_FishCatchData",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptFloatListProperty",
+            "Name": "catchSequence",
+            "Data": [
+              2.1,
+              1.6,
+              1.6,
+              0.0
+            ]
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeLargeFish",
+            "Object": "000892:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeObject",
+            "Object": "000893:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeQuestEvent",
+            "Object": "000818:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeSmallFish",
+            "Object": "000894:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "fishFood",
+            "Object": "0008A2:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "QuestScript",
+            "Object": "00000A:LLFP.esp"
+          }
+        ]
+      }
+    ]
+  },
+  "MarkerColor": "#00CC4C33",
+  "Flags": []
+}

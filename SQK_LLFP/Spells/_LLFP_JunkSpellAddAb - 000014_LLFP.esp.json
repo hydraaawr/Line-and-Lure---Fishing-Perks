@@ -1,0 +1,25 @@
+{
+  "FormKey": "000014:LLFP.esp",
+  "EditorID": "_LLFP_JunkSpellAddAb",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Junk Spell Adder Ability"
+  },
+  "EquipmentType": "013F44:Skyrim.esm",
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": ""
+  },
+  "Flags": [
+    "IgnoreResistance",
+    "NoAbsorbOrReflect"
+  ],
+  "Type": "Ability",
+  "CastType": "FireAndForget",
+  "Effects": [
+    {
+      "BaseEffect": "000013:LLFP.esp",
+      "Data": {}
+    }
+  ]
+}

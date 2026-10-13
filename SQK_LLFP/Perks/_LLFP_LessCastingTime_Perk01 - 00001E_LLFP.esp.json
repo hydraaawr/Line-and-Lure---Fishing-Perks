@@ -1,0 +1,34 @@
+{
+  "FormKey": "00001E:LLFP.esp",
+  "EditorID": "_LLFP_LessCastingTime_Perk01",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Swift Cast"
+  },
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": "Casting your line is 20% faster."
+  },
+  "Conditions": [
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Data": {
+        "MutagenObjectType": "HasPerkConditionData",
+        "Perk": "000031:LLFP.esp"
+      },
+      "ComparisonValue": 1.0
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "CompareOperator": "GreaterThanOrEqualTo",
+      "Data": {
+        "MutagenObjectType": "GetGlobalValueConditionData",
+        "Global": "000D63:LLFP.esp"
+      },
+      "ComparisonValue": 25.0
+    }
+  ],
+  "NumRanks": 1,
+  "Playable": true,
+  "NextPerk": "000020:LLFP.esp"
+}

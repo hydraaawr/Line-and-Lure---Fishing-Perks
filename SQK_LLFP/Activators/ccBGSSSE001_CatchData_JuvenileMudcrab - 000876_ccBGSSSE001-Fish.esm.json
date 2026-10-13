@@ -1,0 +1,65 @@
+{
+  "FormKey": "000876:ccBGSSSE001-Fish.esm",
+  "EditorID": "ccBGSSSE001_CatchData_JuvenileMudcrab",
+  "VirtualMachineAdapter": {
+    "Scripts": [
+      {
+        "Name": "ccBGSSSE001_FishCatchData",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptFloatListProperty",
+            "Name": "catchSequence",
+            "Data": [
+              3.4,
+              2.1,
+              2.1,
+              0.0
+            ]
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeLargeFish",
+            "Object": "000892:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeObject",
+            "Object": "000893:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeQuestEvent",
+            "Object": "000818:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ccBGSSSE001_CatchTypeSmallFish",
+            "Object": "000894:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "fishIngredient",
+            "Object": "0008F2:ccBGSSSE001-Fish.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptBoolProperty",
+            "Name": "isSmallFish",
+            "Data": true
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "QuestScript",
+            "Object": "00000A:LLFP.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptStringProperty",
+            "Name": "successNodeName",
+            "Data": "SuccessNodeItemJunkSmall02"
+          }
+        ]
+      }
+    ]
+  },
+  "MarkerColor": "#00CC4C33",
+  "Flags": []
+}

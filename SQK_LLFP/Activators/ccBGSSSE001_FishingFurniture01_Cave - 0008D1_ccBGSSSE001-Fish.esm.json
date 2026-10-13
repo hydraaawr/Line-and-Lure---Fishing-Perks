@@ -8,16 +8,6 @@
         "Name": "ccBGSSSE001_FishingActScript",
         "Properties": [
           {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "_LLFP_MoreCatch_Perk01",
-            "Object": "000003:LLFP.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "_LLFP_SkillAdvanceMult",
-            "Object": "000037:LLFP.esp"
-          },
-          {
             "MutagenObjectType": "ScriptIntProperty",
             "Name": "BiomeType",
             "Data": 3
@@ -26,16 +16,6 @@
             "MutagenObjectType": "ScriptObjectProperty",
             "Name": "FishingSystem",
             "Object": "033A57:ccBGSSSE001-Fish.esm"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "PlayerRef",
-            "Object": "000014:Skyrim.esm"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "QuestScript",
-            "Object": "00000A:LLFP.esp"
           }
         ]
       },

@@ -3,7 +3,7 @@
   "EditorID": "ccBGSSSE001_FishingTutorial",
   "Description": {
     "TargetLanguage": "English",
-    "Value": "Fishing\r\n\r\nWhile fishing, press Activate to reel in your line. Reeling when there is a strong pull on your line will reel in your catch.\r\n\r\nRipples on the surface when casting your line are from nearby fish. If the water is calm when you cast your line, there are no more fish to catch here. Fish will return in a day's time.\r\n\r\nSeek out a copy of \"Line and Lure\" to learn more about your Fishing skill.\r\n"
+    "Value": "Fishing\r\n\r\nWhile fishing, press Activate to reel in your line. Reeling when there is a strong pull on your line will reel in your catch.\r\n\r\nRipples on the surface when casting your line are from nearby fish. If the water is calm when you cast your line, there are no more fish to catch here. Fish will return in a day's time.\r\n\r\nRead a copy of \"Line and Lure\" to learn more about your Fishing skill.\r\n"
   },
   "INAM": "0x00000000",
   "Flags": [
